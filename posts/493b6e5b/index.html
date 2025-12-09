@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+  <meta name="referrer" content="no-referrer"/>
+
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"beiannofox.github.io","root":"/blog/","images":"/blog/images","scheme":"Pisces","darkmode":false,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/blog/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/blog/js/config.js" defer></script>
+
+    <meta name="description" content="深度学习实验课作业，搭建自己的神经网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习-简单CNN卷积神经网络搭建">
+<meta property="og:url" content="https://beiannofox.github.io/blog/posts/493b6e5b/index.html">
+<meta property="og:site_name" content="鸽子窝">
+<meta property="og:description" content="深度学习实验课作业，搭建自己的神经网络">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/54704506/1762243688844-57b441fa-1b0a-4978-894f-5d75eeea90be.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/54704506/1762245150377-df349a49-194a-4661-b4df-0d7a0b201337.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/54704506/1762869024908-ebb37d71-fdcf-45cc-881f-dac46a985599.png">
+<meta property="article:published_time" content="2025-11-04T05:14:01.000Z">
+<meta property="article:modified_time" content="2025-11-11T15:12:12.000Z">
+<meta property="article:author" content="BeianNoFox">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2025/png/54704506/1762243688844-57b441fa-1b0a-4978-894f-5d75eeea90be.png">
+
+
+<link rel="canonical" href="https://beiannofox.github.io/blog/posts/493b6e5b/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://beiannofox.github.io/blog/posts/493b6e5b/","path":"posts/493b6e5b/","title":"深度学习-简单CNN卷积神经网络搭建"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>深度学习-简单CNN卷积神经网络搭建 | 鸽子窝</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous" defer></script>
+<script src="/blog/js/utils.js" defer></script><script src="/blog/js/motion.js" defer></script><script src="/blog/js/sidebar.js" defer></script><script src="/blog/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/blog/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">鸽子窝</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">那就戴上金帽子，如果可以打动她</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">准备数据集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MNIST%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">1.1.</span> <span class="nav-text">MNIST数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%BD%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="nav-number">1.2.</span> <span class="nav-text">载入数据</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1CNN%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">设计CNN网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CNN%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E5%B1%82"><span class="nav-number">2.1.</span> <span class="nav-text">CNN网络结构层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E9%83%A8%E5%88%86"><span class="nav-number">2.2.</span> <span class="nav-text">代码部分</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E8%AE%AD%E7%BB%83"><span class="nav-number">3.</span> <span class="nav-text">迭代训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C%E8%BE%93%E5%87%BA"><span class="nav-number">4.</span> <span class="nav-text">结果输出</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="BeianNoFox"
+      src="https://avatars.githubusercontent.com/u/204031213">
+  <p class="site-author-name" itemprop="name">BeianNoFox</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://beiannofox.github.io/blog/posts/493b6e5b/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/204031213">
+      <meta itemprop="name" content="BeianNoFox">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="鸽子窝">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="深度学习-简单CNN卷积神经网络搭建 | 鸽子窝">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          深度学习-简单CNN卷积神经网络搭建
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-11-04 13:14:01" itemprop="dateCreated datePublished" datetime="2025-11-04T13:14:01+08:00">2025-11-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-11-11 23:12:12" itemprop="dateModified" datetime="2025-11-11T23:12:12+08:00">2025-11-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E5%AD%A6%E4%B9%A0/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>深度学习实验课作业，搭建自己的神经网络</p>
+<span id="more"></span>
+
+<hr>
+<h3 id="准备数据集"><a href="#准备数据集" class="headerlink" title="准备数据集"></a>准备数据集</h3><h4 id="MNIST数据集"><a href="#MNIST数据集" class="headerlink" title="MNIST数据集"></a>MNIST数据集</h4><p><a target="_blank" rel="noopener" href="http://yann.lecun.com/exdb/mnist/">MNIST</a>（Modified National Institute of Standards and Technology）是一个手写数字数据集，通常用于训练各种图像处理系统。由美国国家标准与技术研究所（NIST）收集并修改而来，是计算机视觉和深度学习领域的经典入门数据集。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1762243688844-57b441fa-1b0a-4978-894f-5d75eeea90be.png" alt="img"></p>
+<ul>
+<li><p>样本规模:60k训练样本+10k测试样本</p>
+</li>
+<li><p>图片维度:28x28 单通道灰度图</p>
+</li>
+<li><p>分类标签:0-9共10个类别</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1762245150377-df349a49-194a-4661-b4df-0d7a0b201337.png" alt="img"></p>
+</li>
+</ul>
+<h4 id="载入数据"><a href="#载入数据" class="headerlink" title="载入数据"></a>载入数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torchvision.transforms <span class="keyword">as</span> transforms</span><br><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> DataLoader</span><br><span class="line"><span class="keyword">from</span> torchvision.datasets <span class="keyword">import</span> MNIST</span><br><span class="line"></span><br><span class="line"><span class="comment">#参数</span></span><br><span class="line">batch_size=<span class="number">128</span></span><br><span class="line">device=<span class="string">&#x27;cuda&#x27;</span> <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">&#x27;cpu&#x27;</span></span><br><span class="line">Epochs=<span class="number">20</span></span><br><span class="line">NUM_WORKER=<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#加载数据</span></span><br><span class="line">transform = transforms.Compose([</span><br><span class="line">    transforms.ToTensor(),<span class="comment"># 将图像转换为张量</span></span><br><span class="line">    transforms.Normalize((<span class="number">0.1307</span>,), (<span class="number">0.3081</span>,))   <span class="comment"># MNIST 均值、方差</span></span><br><span class="line">])</span><br><span class="line">train_data = MNIST(root=<span class="string">&#x27;./data&#x27;</span>, train=<span class="literal">True</span>, transform=transform, download=<span class="literal">True</span>)</span><br><span class="line">test_data = MNIST(root=<span class="string">&#x27;./data&#x27;</span>, train=<span class="literal">False</span>, transform=transform, download=<span class="literal">True</span>)</span><br><span class="line">train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=<span class="literal">True</span>, num_workers=NUM_WORKER)</span><br><span class="line">test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=<span class="literal">False</span>, num_workers=NUM_WORKER)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>root为存放MNIST的路径,train&#x3D;True代表下载的为训练集和训练集标签，False则代表测试集和标签<br>transforms.ToTensor()表示将shape为(H, W, C)的 numpy 数组或 img 转为shape为(C, H, W)的tensor，并将数值归一化为[0,1]<br>shuffle&#x3D;True，表示对分好的batch进行洗牌操作，drop_last&#x3D;True表示对最后不足batch大小的剩余样本舍去，False表示保留</p>
+</blockquote>
+<hr>
+<h3 id="设计CNN网络结构"><a href="#设计CNN网络结构" class="headerlink" title="设计CNN网络结构"></a>设计CNN网络结构</h3><h4 id="CNN网络结构层"><a href="#CNN网络结构层" class="headerlink" title="CNN网络结构层"></a>CNN网络结构层</h4><p>该模型以28×28×1的灰度图像作为输入，依次经过两组卷积与池化操作，再通过三层全连接层，完成从低层特征提取到最终的手写数字分类。</p>
+<ul>
+<li>在第一个卷积块中，输入通道由1扩展至32，经卷积和池化后，空间尺寸由28×28降至14×14，实现了边缘、角点等基础纹理特征的提取。</li>
+<li>在第二个卷积块中，通道数进一步增加至64，特征图尺寸缩小为7×7，模型开始学习更复杂的局部模式与形状结构。</li>
+<li>随后通过Flatten层将7×7×64的特征展平成一维向量（3136维），输入至分类头部分。</li>
+<li>在分类器部分，首先经过一层线性层（3136→128）与ReLU激活，提取深层抽象特征</li>
+<li>最后通过线性层（128→10）输出10维向量，对应0–9十个类别的预测概率。</li>
+</ul>
+<p>整体上，模型在通道维度上逐步扩张、空间维度逐层收缩，实现了从局部边缘特征到全局语义的层次化抽象过程，结构紧凑、计算高效，能够在MNIST手写数字识别任务中取得良好的分类性能。</p>
+<h4 id="代码部分"><a href="#代码部分" class="headerlink" title="代码部分"></a>代码部分</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#创建CNN网络</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CNN</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        <span class="variable language_">self</span>.conv1 = nn.Conv2d(<span class="number">1</span>,<span class="number">16</span>,kernel_size=<span class="number">3</span>,padding=<span class="number">1</span>)</span><br><span class="line">        <span class="variable language_">self</span>.max_pool1 = nn.MaxPool2d(<span class="number">2</span>)</span><br><span class="line">        <span class="variable language_">self</span>.conv2 = nn.Conv2d(<span class="number">16</span>,<span class="number">32</span>,kernel_size=<span class="number">3</span>,padding=<span class="number">1</span>)</span><br><span class="line">        <span class="variable language_">self</span>.max_pool2 = nn.MaxPool2d(<span class="number">2</span>)</span><br><span class="line">        <span class="variable language_">self</span>.fc1 = nn.Linear(<span class="number">32</span>*<span class="number">7</span>*<span class="number">7</span>,<span class="number">256</span>)</span><br><span class="line">        <span class="variable language_">self</span>.fc2 = nn.Linear(<span class="number">256</span>,<span class="number">10</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        x = <span class="variable language_">self</span>.max_pool1(F.relu(<span class="variable language_">self</span>.conv1(x)))</span><br><span class="line">        x = <span class="variable language_">self</span>.max_pool2(F.relu(<span class="variable language_">self</span>.conv2(x)))</span><br><span class="line">        x = x.view(-<span class="number">1</span>, <span class="number">32</span> * <span class="number">7</span> * <span class="number">7</span>)</span><br><span class="line">        x = F.relu(<span class="variable language_">self</span>.fc1(x))</span><br><span class="line">        y_hat = <span class="variable language_">self</span>.fc2(x)</span><br><span class="line">        <span class="keyword">return</span> y_hat</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>nn.Conv2()的参数分别为:in_channels&#x3D;输入图像通道数，out_channels&#x3D;卷积后的通道数，kernel_size&#x3D;卷积核大小，stride&#x3D;步长，padding&#x3D;填充<br>如:conv1为第一层卷积核通道数从1通道卷积值16通道、核大小为3X3、填充1</p>
+</blockquote>
+<hr>
+<h3 id="迭代训练"><a href="#迭代训练" class="headerlink" title="迭代训练"></a>迭代训练</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, Epochs + <span class="number">1</span>):</span><br><span class="line">        net.train()</span><br><span class="line">        running_loss, correct = <span class="number">0.0</span>, <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> x, y <span class="keyword">in</span> train_loader:</span><br><span class="line">            x, y = x.to(device), y.to(device)</span><br><span class="line">            optimizer.zero_grad()</span><br><span class="line">            out = net(x)</span><br><span class="line">            loss = criterion(out, y)</span><br><span class="line">            loss.backward()</span><br><span class="line">            optimizer.step()</span><br><span class="line">            running_loss += loss.item() * x.size(<span class="number">0</span>)</span><br><span class="line">            correct += (out.argmax(<span class="number">1</span>) == y).<span class="built_in">sum</span>().item()</span><br><span class="line"></span><br><span class="line">        train_loss = running_loss / <span class="built_in">len</span>(train_data)</span><br><span class="line">        train_acc = correct / <span class="built_in">len</span>(train_data)</span><br><span class="line"></span><br><span class="line">        net.<span class="built_in">eval</span>()</span><br><span class="line">        running_loss, correct = <span class="number">0.0</span>, <span class="number">0</span></span><br><span class="line">        <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">            <span class="keyword">for</span> x, y <span class="keyword">in</span> test_loader:</span><br><span class="line">                x, y = x.to(device), y.to(device)</span><br><span class="line">                out = net(x)</span><br><span class="line">                running_loss += criterion(out, y).item() * x.size(<span class="number">0</span>)</span><br><span class="line">                correct += (out.argmax(<span class="number">1</span>) == y).<span class="built_in">sum</span>().item()</span><br><span class="line"></span><br><span class="line">        test_loss = running_loss / <span class="built_in">len</span>(test_data)</span><br><span class="line">        test_acc = correct / <span class="built_in">len</span>(test_data)</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;第 <span class="subst">&#123;epoch&#125;</span> 轮：训练损失 <span class="subst">&#123;train_loss:<span class="number">.4</span>f&#125;</span>  训练准确率 <span class="subst">&#123;train_acc:<span class="number">.2</span>%&#125;</span> | &#x27;</span></span><br><span class="line">              <span class="string">f&#x27;测试损失 <span class="subst">&#123;test_loss:<span class="number">.4</span>f&#125;</span>  测试准确率 <span class="subst">&#123;test_acc:<span class="number">.2</span>%&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="结果输出"><a href="#结果输出" class="headerlink" title="结果输出"></a>结果输出</h3><p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1762869024908-ebb37d71-fdcf-45cc-881f-dac46a985599.png" alt="img"></p>
+<p>从训练日志可以看出，在第3个epoch 之后，训练损失迅速下降至约 0.11，测试损失降至 0.10左右，模型准确率已超过 96%，说明网络较快地学习到了有效的手写数字判别特征。<br>随着训练轮次的增加，损失值逐步趋于平稳，训练与测试曲线基本重合，表明模型在收敛过程中未出现明显的过拟合现象。<br>从第 5 个 epoch 起，训练集与测试集的准确率均保持在 97% 以上，并在第 10 个 epoch 达到峰值，训练准确率 98.76%、测试准确率 98.56%。训练与测试性能几乎一致，说明模型具备良好的泛化能力与收敛稳定性。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
+              <a href="/blog/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/posts/86341b81/" rel="prev" title="机器学习1-JupyterNotebook安装">
+                  <i class="fa fa-angle-left"></i> 机器学习1-JupyterNotebook安装
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/blog/posts/31383a7d/" rel="next" title="OMR研究1">
+                  OMR研究1 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">BeianNoFox</span>
+    <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+    <div class="wordcount">
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="fa fa-chart-line"></i>
+        </span>
+          <span>站点总字数：</span>
+        <span title="站点总字数">8k</span>
+      </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="fa fa-coffee"></i>
+        </span>
+          <span>站点阅读时长 &asymp;</span>
+        <span title="站点阅读时长">14 分钟</span>
+      </span>
+    </div>
+
+  </div>
+
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("03/03/2025 10:00:00"); //此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "+hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/BeianNoFox" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '32px',
+  right: '32px',
+  left: 'unset',
+  time: '0.3s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

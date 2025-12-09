@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+  <meta name="referrer" content="no-referrer"/>
+
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"beiannofox.github.io","root":"/blog/","images":"/blog/images","scheme":"Pisces","darkmode":false,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/blog/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/blog/js/config.js" defer></script>
+
+    <meta name="description" content="泰坦尼克号幸存者 问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习-Titanic数据集">
+<meta property="og:url" content="https://beiannofox.github.io/blog/posts/30b73690/index.html">
+<meta property="og:site_name" content="鸽子窝">
+<meta property="og:description" content="泰坦尼克号幸存者 问题">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/54704506/1764915998169-983c0cd2-926a-40c2-9bb2-bd93998d6b2c.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/54704506/1764920459773-2e18ab2c-51d0-401b-a3d0-7a8b2e844bd9.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/54704506/1765261323308-d78f3471-2b0e-4462-abaa-33a4bc714c2a.png">
+<meta property="article:published_time" content="2025-12-02T06:49:49.000Z">
+<meta property="article:modified_time" content="2025-12-05T09:25:49.000Z">
+<meta property="article:author" content="BeianNoFox">
+<meta property="article:tag" content="学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2025/png/54704506/1764915998169-983c0cd2-926a-40c2-9bb2-bd93998d6b2c.png">
+
+
+<link rel="canonical" href="https://beiannofox.github.io/blog/posts/30b73690/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://beiannofox.github.io/blog/posts/30b73690/","path":"posts/30b73690/","title":"机器学习-Titanic数据集"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>机器学习-Titanic数据集 | 鸽子窝</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous" defer></script>
+<script src="/blog/js/utils.js" defer></script><script src="/blog/js/motion.js" defer></script><script src="/blog/js/sidebar.js" defer></script><script src="/blog/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/blog/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">鸽子窝</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">那就戴上金帽子，如果可以打动她</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">数据集简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%E9%A2%84%E8%A7%88"><span class="nav-number">2.</span> <span class="nav-text">数据集预览</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="nav-number">2.1.</span> <span class="nav-text">数据处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE"><span class="nav-number">2.1.1.</span> <span class="nav-text">查看数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%BA%E5%A4%B1%E6%95%B0%E6%8D%AE%E5%A1%AB%E5%85%85"><span class="nav-number">2.1.2.</span> <span class="nav-text">缺失数据填充</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B8%8E%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96"><span class="nav-number">2.2.</span> <span class="nav-text">数据特征工程与特征提取</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%A7%E5%88%AB"><span class="nav-number">2.2.1.</span> <span class="nav-text">性别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A2%E8%88%B1%E7%AD%89%E7%BA%A7"><span class="nav-number">2.2.2.</span> <span class="nav-text">客舱等级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%B4%E8%A1%94"><span class="nav-number">2.2.3.</span> <span class="nav-text">头衔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%99%BB%E8%88%B9%E6%B8%AF%E5%8F%A3"><span class="nav-number">2.2.4.</span> <span class="nav-text">登船港口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B6%E5%BA%AD%E7%89%B9%E5%BE%81"><span class="nav-number">2.2.5.</span> <span class="nav-text">家庭特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A2%E8%88%B1%E4%BD%8D%E7%BD%AE"><span class="nav-number">2.2.6.</span> <span class="nav-text">客舱位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%97%A0%E7%94%A8%E9%A1%B9"><span class="nav-number">2.2.7.</span> <span class="nav-text">删除无用项</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%B8%8E%E8%AF%84%E4%BC%B0"><span class="nav-number">3.</span> <span class="nav-text">模型搭建与评估</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%87%E5%87%86%E5%8C%96%E4%B8%8E%E5%88%92%E5%88%86"><span class="nav-number">3.1.</span> <span class="nav-text">数据标准化与划分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E8%81%94%E6%80%A7%E5%88%86%E6%9E%90"><span class="nav-number">3.2.</span> <span class="nav-text">关联性分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%B8%8E%E8%AF%84%E4%BC%B0-1"><span class="nav-number">3.3.</span> <span class="nav-text">模型搭建与评估</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%87%E5%87%86%E5%8C%96%E4%B8%8E%E5%88%92%E5%88%86-1"><span class="nav-number">3.3.1.</span> <span class="nav-text">数据标准化与划分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%AF%B9%E6%AF%94"><span class="nav-number">3.3.2.</span> <span class="nav-text">模型对比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E4%BC%98%E5%8C%96%E4%B8%8E%E9%A2%84%E6%B5%8B"><span class="nav-number">3.4.</span> <span class="nav-text">模型优化与预测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%80%89%E6%8B%A9%E7%90%86%E7%94%B1%E5%92%8C%E8%AF%84%E4%BC%B0%E7%BB%93%E6%9E%9C"><span class="nav-number">3.4.1.</span> <span class="nav-text">最佳模型的选择理由和评估结果</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="BeianNoFox"
+      src="https://avatars.githubusercontent.com/u/204031213">
+  <p class="site-author-name" itemprop="name">BeianNoFox</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://beiannofox.github.io/blog/posts/30b73690/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/204031213">
+      <meta itemprop="name" content="BeianNoFox">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="鸽子窝">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="机器学习-Titanic数据集 | 鸽子窝">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          机器学习-Titanic数据集
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-12-02 14:49:49" itemprop="dateCreated datePublished" datetime="2025-12-02T14:49:49+08:00">2025-12-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-12-05 17:25:49" itemprop="dateModified" datetime="2025-12-05T17:25:49+08:00">2025-12-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>泰坦尼克号幸存者 问题</p>
+<span id="more"></span>
+
+<h1 id="数据集简介"><a href="#数据集简介" class="headerlink" title="数据集简介"></a>数据集简介</h1><p>本次使用的数据集为<a target="_blank" rel="noopener" href="https://www.kaggle.com/competitions/titanic">Titanic - Machine Learning from Disaster | Kaggle</a>，为Kaggle的竞赛题，比赛选择了泰坦尼克号作为背景，并提供了样本数据以及测试数据，要求我们使用机器学习创建一个模型，预测哪些乘客在泰坦尼克号沉船中幸存下来</p>
+<hr>
+<h1 id="数据集预览"><a href="#数据集预览" class="headerlink" title="数据集预览"></a>数据集预览</h1><p>打开数据集我们发现该数据集内，每位乘客拥有12项属性</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1764915998169-983c0cd2-926a-40c2-9bb2-bd93998d6b2c.png" alt="img"></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>属性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Passengerld</td>
+<td>唯一标识符</td>
+</tr>
+<tr>
+<td>Survived</td>
+<td>是否存活，0否、1是</td>
+</tr>
+<tr>
+<td>Pclass</td>
+<td>客舱等级，分为1、2、3级</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>姓名</td>
+</tr>
+<tr>
+<td>Sex</td>
+<td>性别，分为male、female</td>
+</tr>
+<tr>
+<td>Age</td>
+<td>年龄</td>
+</tr>
+<tr>
+<td>SibSp</td>
+<td>船上乘客的兄弟姐妹&#x2F;配偶数量</td>
+</tr>
+<tr>
+<td>Parch</td>
+<td>船上乘客的父母&#x2F;子女数量</td>
+</tr>
+<tr>
+<td>Ticket</td>
+<td>船票号</td>
+</tr>
+<tr>
+<td>Fare</td>
+<td>船票价格</td>
+</tr>
+<tr>
+<td>Cabin</td>
+<td>客舱编号</td>
+</tr>
+<tr>
+<td>Embarked</td>
+<td>上船的港口编号，分为S、C、Q</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h2><h3 id="查看数据"><a href="#查看数据" class="headerlink" title="查看数据"></a>查看数据</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">train=pd.read_csv(<span class="string">&#x27;./data/train.csv&#x27;</span>)</span><br><span class="line">test=pd.read_csv(<span class="string">&#x27;./data/test.csv&#x27;</span>)</span><br><span class="line">pd.set_option(<span class="string">&#x27;display.max_columns&#x27;</span>, <span class="literal">None</span>)</span><br><span class="line">pd.set_option(<span class="string">&#x27;display.width&#x27;</span>, <span class="literal">None</span>)</span><br><span class="line">data = pd.concat([train, test], ignore_index=<span class="literal">True</span>)</span><br><span class="line"><span class="built_in">print</span>(data.head())</span><br><span class="line"><span class="built_in">print</span>(data.describe())</span><br><span class="line"><span class="built_in">print</span>(data.info())</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1764920459773-2e18ab2c-51d0-401b-a3d0-7a8b2e844bd9.png" alt="img"></p>
+<blockquote>
+<p>通过分析发现：数据共有1309行</p>
+<p>其中缺失数值的有：年龄(Age)、船票价格(Fare)、客舱编号(Cabin)、登船港口(Embarked)</p>
+<p>数值类有:</p>
+<ol>
+<li><strong>Age</strong>总数据1046条，缺失了1309-1046&#x3D;263条，缺失率20%</li>
+<li><strong>Fare</strong>总数据1308条，缺失1条</li>
+</ol>
+<p>字符串类有：</p>
+<ol>
+<li><strong>Cabin</strong>总数据295条，缺失了1039-295&#x3D;1014条，缺失率77.5%</li>
+<li><strong>Embarked</strong>总数据1307条，缺失了2条</li>
+</ol>
+</blockquote>
+<hr>
+<h3 id="缺失数据填充"><a href="#缺失数据填充" class="headerlink" title="缺失数据填充"></a>缺失数据填充</h3><p>接下来我们对于缺失数据进行填充</p>
+<ul>
+<li>对于数值类我们使用<strong>fillna</strong>函数取中间值进行填充</li>
+<li>对于Embarked我们采用最常见的类别填充</li>
+<li>对于Cabin我们使用U来填充</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&quot;缺失补全后:&quot;</span>)</span><br><span class="line"><span class="comment">#求平均</span></span><br><span class="line">data[<span class="string">&#x27;Age&#x27;</span>] = data[<span class="string">&#x27;Age&#x27;</span>].fillna(data[<span class="string">&#x27;Age&#x27;</span>].mean())</span><br><span class="line">data[<span class="string">&#x27;Fare&#x27;</span>] = data[<span class="string">&#x27;Fare&#x27;</span>].fillna(data[<span class="string">&#x27;Fare&#x27;</span>].mean())</span><br><span class="line"><span class="comment">#取最多</span></span><br><span class="line">data[<span class="string">&#x27;Embarked&#x27;</span>]=data[<span class="string">&#x27;Embarked&#x27;</span>].fillna(<span class="string">&#x27;S&#x27;</span>)</span><br><span class="line"><span class="comment">#未知使用U代替</span></span><br><span class="line">data[<span class="string">&#x27;Cabin&#x27;</span>]=data[<span class="string">&#x27;Cabin&#x27;</span>].fillna(<span class="string">&#x27;U&#x27;</span>)</span><br><span class="line">data.info()</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="数据特征工程与特征提取"><a href="#数据特征工程与特征提取" class="headerlink" title="数据特征工程与特征提取"></a>数据特征工程与特征提取</h2><p>在 Titanic 生存预测中，数据预处理和特征工程是提高模型准确率的关键步骤。</p>
+<h3 id="性别"><a href="#性别" class="headerlink" title="性别"></a>性别</h3><p>乘客的性别是生存概率的重要指标。我们将性别映射为数值：</p>
+<ul>
+<li>男性 → 1</li>
+<li>女性 → 0</li>
+</ul>
+<p>这样机器学习模型可以直接理解性别的差异。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sex_Dict = &#123;<span class="string">&#x27;male&#x27;</span>: <span class="number">1</span>, <span class="string">&#x27;female&#x27;</span>: <span class="number">0</span>&#125;</span><br><span class="line">data[<span class="string">&#x27;Sex&#x27;</span>] = data[<span class="string">&#x27;Sex&#x27;</span>].<span class="built_in">map</span>(sex_Dict)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="客舱等级"><a href="#客舱等级" class="headerlink" title="客舱等级"></a>客舱等级</h3><p>Pclass 代表舱位等级，也可能反映乘客的社会地位。我们同样使用 One-hot 编码，将其转为三个独立特征：</p>
+<ul>
+<li>Pclass_1</li>
+<li>Pclass_2</li>
+<li>Pclass_3</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pclassDf = pd.get_dummies(data[<span class="string">&#x27;Pclass&#x27;</span>], prefix=<span class="string">&#x27;Pclass&#x27;</span>)</span><br><span class="line">data = pd.concat([data, pclassDf], axis=<span class="number">1</span>)</span><br><span class="line">data.drop(<span class="string">&#x27;Pclass&#x27;</span>, axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="头衔"><a href="#头衔" class="headerlink" title="头衔"></a>头衔</h3><p>乘客姓名中包含头衔（Title），如 Mr、Mrs、Miss 等，这能反映社会身份和年龄特征。<br> 我们从 Name 中提取头衔，并将罕见或等价头衔归为五类：</p>
+<ul>
+<li>Mr</li>
+<li>Miss</li>
+<li>Mrs</li>
+<li>Master</li>
+<li>Rare（稀有头衔，如贵族、军衔、医生等）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">data[<span class="string">&#x27;Title&#x27;</span>] = data[<span class="string">&#x27;Name&#x27;</span>].<span class="built_in">str</span>.extract(<span class="string">&#x27; ([A-Za-z]+)\.&#x27;</span>, expand=<span class="literal">False</span>)</span><br><span class="line">data[<span class="string">&#x27;Title&#x27;</span>] = data[<span class="string">&#x27;Title&#x27;</span>].replace(&#123;</span><br><span class="line">    <span class="string">&#x27;Mlle&#x27;</span>: <span class="string">&#x27;Miss&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Ms&#x27;</span>: <span class="string">&#x27;Miss&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mme&#x27;</span>: <span class="string">&#x27;Mrs&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Countess&#x27;</span>: <span class="string">&#x27;Rare&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Lady&#x27;</span>: <span class="string">&#x27;Rare&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Sir&#x27;</span>: <span class="string">&#x27;Rare&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Jonkheer&#x27;</span>: <span class="string">&#x27;Rare&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Dona&#x27;</span>: <span class="string">&#x27;Rare&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Dr&#x27;</span>: <span class="string">&#x27;Rare&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Major&#x27;</span>: <span class="string">&#x27;Rare&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Col&#x27;</span>: <span class="string">&#x27;Rare&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Rev&#x27;</span>: <span class="string">&#x27;Rare&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Capt&#x27;</span>: <span class="string">&#x27;Rare&#x27;</span></span><br><span class="line">&#125;)</span><br><span class="line">titleDf = pd.get_dummies(data[<span class="string">&#x27;Title&#x27;</span>], prefix=<span class="string">&#x27;Title&#x27;</span>)</span><br><span class="line">data = pd.concat([data, titleDf], axis=<span class="number">1</span>)</span><br><span class="line">data.drop([<span class="string">&#x27;Title&#x27;</span>, <span class="string">&#x27;Name&#x27;</span>], axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="登船港口"><a href="#登船港口" class="headerlink" title="登船港口"></a>登船港口</h3><p>乘客的登船港口也可能影响生存率。由于它是类别型变量，我们使用 One-hot 编码，将每个港口拆分为独立的二值特征：</p>
+<ul>
+<li>Embarked_C</li>
+<li>Embarked_Q</li>
+<li>Embarked_S</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">embarkedDf = pd.get_dummies(data[<span class="string">&#x27;Embarked&#x27;</span>], prefix=<span class="string">&#x27;Embarked&#x27;</span>)</span><br><span class="line">data = pd.concat([data, embarkedDf], axis=<span class="number">1</span>)</span><br><span class="line">data.drop(<span class="string">&#x27;Embarked&#x27;</span>, axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="家庭特征"><a href="#家庭特征" class="headerlink" title="家庭特征"></a>家庭特征</h3><ul>
+<li>家庭成员数量：<code>FamilySize = SibSp + Parch + 1</code></li>
+<li>是否独自一人：<code>IsAlone = 1 if FamilySize == 1 else 0</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data[<span class="string">&#x27;FamilySize&#x27;</span>] = data[<span class="string">&#x27;SibSp&#x27;</span>] + data[<span class="string">&#x27;Parch&#x27;</span>] + <span class="number">1</span></span><br><span class="line">data[<span class="string">&#x27;IsAlone&#x27;</span>] = (data[<span class="string">&#x27;FamilySize&#x27;</span>] == <span class="number">1</span>).astype(<span class="built_in">int</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="客舱位置"><a href="#客舱位置" class="headerlink" title="客舱位置"></a>客舱位置</h3><p>Cabin 信息可以提供乘客所在甲板的位置。我们取 Cabin 的首字母作为 Deck，并用 One-hot 编码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">data[<span class="string">&#x27;Deck&#x27;</span>] = data[<span class="string">&#x27;Cabin&#x27;</span>].apply(<span class="keyword">lambda</span> x: x[<span class="number">0</span>])</span><br><span class="line">deckDf = pd.get_dummies(data[<span class="string">&#x27;Deck&#x27;</span>], prefix=<span class="string">&#x27;Deck&#x27;</span>)</span><br><span class="line">data = pd.concat([data, deckDf], axis=<span class="number">1</span>)</span><br><span class="line">data.drop(<span class="string">&#x27;Deck&#x27;</span>, axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="删除无用项"><a href="#删除无用项" class="headerlink" title="删除无用项"></a>删除无用项</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#删除无用的</span></span><br><span class="line">data.drop(<span class="string">&#x27;PassengerId&#x27;</span>, axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">data.drop(<span class="string">&#x27;SibSp&#x27;</span>, axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">data.drop(<span class="string">&#x27;Parch&#x27;</span>, axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">data.drop(<span class="string">&#x27;Ticket&#x27;</span>, axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>特征名</th>
+<th>类型</th>
+<th>来源 &#x2F; 处理方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sex</td>
+<td>数值型</td>
+<td>原始 Sex → 男1&#x2F;女0</td>
+<td>性别对生存率影响大</td>
+</tr>
+<tr>
+<td>Embarked_C &#x2F; Embarked_Q &#x2F; Embarked_S</td>
+<td>类别型（One-hot）</td>
+<td>原始 Embarked → One-hot 编码</td>
+<td>登船港口，不同港口生存率不同</td>
+</tr>
+<tr>
+<td>Pclass_1 &#x2F; Pclass_2 &#x2F; Pclass_3</td>
+<td>类别型（One-hot）</td>
+<td>原始 Pclass → One-hot 编码</td>
+<td>舱位等级，反映社会地位和生存概率</td>
+</tr>
+<tr>
+<td>Title_Mr &#x2F; Title_Miss &#x2F; Title_Mrs &#x2F; Title_Master &#x2F; Title_Rare</td>
+<td>类别型（One-hot）</td>
+<td>从 Name 提取头衔，并合并稀有类别</td>
+<td>头衔可反映年龄、性别和社会身份</td>
+</tr>
+<tr>
+<td>FamilySize</td>
+<td>数值型</td>
+<td>SibSp + Parch + 1</td>
+<td>家庭成员总数，家庭大小可能影响生存率</td>
+</tr>
+<tr>
+<td>IsAlone</td>
+<td>数值型</td>
+<td>FamilySize &#x3D;&#x3D; 1 → 1，否则 0</td>
+<td>是否独自一人登船，对生存率有影响</td>
+</tr>
+<tr>
+<td>Deck_A ~ Deck_U</td>
+<td>类别型（One-hot）</td>
+<td>从 Cabin 提取首字母 → One-hot</td>
+<td>乘客所在甲板位置，对逃生可能性有影响</td>
+</tr>
+<tr>
+<td>Age</td>
+<td>数值型</td>
+<td>原始 Age → 均值填充缺失值</td>
+<td>乘客年龄</td>
+</tr>
+<tr>
+<td>Fare</td>
+<td>数值型</td>
+<td>原始 Fare → 均值填充缺失值</td>
+<td>票价，反映舱位和社会经济状况</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="模型搭建与评估"><a href="#模型搭建与评估" class="headerlink" title="模型搭建与评估"></a>模型搭建与评估</h1><h2 id="数据标准化与划分"><a href="#数据标准化与划分" class="headerlink" title="数据标准化与划分"></a>数据标准化与划分</h2><p>为了优化基于距离的算法性能，并消除特征量纲影响，我们对数值特征进行了<strong>标准化</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line"></span><br><span class="line"><span class="comment"># 恢复训练集和测试集</span></span><br><span class="line">source_train = data.loc[:<span class="number">890</span>]</span><br><span class="line">source_test = data.loc[<span class="number">891</span>:]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分离标签</span></span><br><span class="line">y = source_train[<span class="string">&#x27;Survived&#x27;</span>]</span><br><span class="line">X = source_train.drop(<span class="string">&#x27;Survived&#x27;</span>, axis=<span class="number">1</span>)</span><br><span class="line">X_predict = source_test.drop(<span class="string">&#x27;Survived&#x27;</span>, axis=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 标准化处理</span></span><br><span class="line">scaler = StandardScaler()</span><br><span class="line">X_scaled = scaler.fit_transform(X)</span><br><span class="line">X_predict_scaled = scaler.transform(X_predict)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 划分验证集</span></span><br><span class="line">X_train, X_val, y_train, y_val = train_test_split(X_scaled, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="关联性分析"><a href="#关联性分析" class="headerlink" title="关联性分析"></a>关联性分析</h2><p>我们通过绘制相关性热力图，观察特征与目标变量 <code>Survived</code> 的关系。</p>
+<p>Python</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">plt.figure(figsize=(<span class="number">14</span>, <span class="number">12</span>))</span><br><span class="line">sns.heatmap(source_train.corr(), annot=<span class="literal">True</span>, cmap=<span class="string">&#x27;coolwarm&#x27;</span>, fmt=<span class="string">&#x27;.2f&#x27;</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;Correlation Matrix&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>关键发现：</strong></p>
+<ol>
+<li><strong>Sex</strong> 与生存率呈强正相关（女性生存率高，映射为 0）。</li>
+<li><strong>Pclass</strong> 与生存率呈强负相关（一等舱生存率高）。</li>
+<li><strong>Title_Mr</strong> 与生存率呈强负相关，<strong>Title_Mrs&#x2F;Miss</strong> 呈强正相关。</li>
+</ol>
+</blockquote>
+<hr>
+<h2 id="模型搭建与评估-1"><a href="#模型搭建与评估-1" class="headerlink" title="模型搭建与评估"></a>模型搭建与评估</h2><h3 id="数据标准化与划分-1"><a href="#数据标准化与划分-1" class="headerlink" title="数据标准化与划分"></a>数据标准化与划分</h3><p>为了优化基于距离的算法性能，并消除特征量纲影响，我们对数值特征进行了**标准化 (StandardScaler)**。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line"></span><br><span class="line"><span class="comment"># 恢复训练集和测试集</span></span><br><span class="line">source_train = data.loc[:<span class="number">890</span>]</span><br><span class="line">source_test = data.loc[<span class="number">891</span>:]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分离标签</span></span><br><span class="line">y = source_train[<span class="string">&#x27;Survived&#x27;</span>]</span><br><span class="line">X = source_train.drop(<span class="string">&#x27;Survived&#x27;</span>, axis=<span class="number">1</span>)</span><br><span class="line">X_predict = source_test.drop(<span class="string">&#x27;Survived&#x27;</span>, axis=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 标准化处理</span></span><br><span class="line">scaler = StandardScaler()</span><br><span class="line">X_scaled = scaler.fit_transform(X)</span><br><span class="line">X_predict_scaled = scaler.transform(X_predict)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 划分验证集</span></span><br><span class="line">X_train, X_val, y_train, y_val = train_test_split(X_scaled, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="模型对比"><a href="#模型对比" class="headerlink" title="模型对比"></a>模型对比</h3><p>我们实现了至少五种不同的机器学习模型，并使用5折交叉验证对训练集数据进行基准性能评估。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1765261323308-d78f3471-2b0e-4462-abaa-33a4bc714c2a.png" alt="img"></p>
+<hr>
+<h2 id="模型优化与预测"><a href="#模型优化与预测" class="headerlink" title="模型优化与预测"></a>模型优化与预测</h2><h3 id="最佳模型的选择理由和评估结果"><a href="#最佳模型的选择理由和评估结果" class="headerlink" title="最佳模型的选择理由和评估结果"></a>最佳模型的选择理由和评估结果</h3><p>选择随机森林作为最佳模型的主要原因在于：</p>
+<ol>
+<li><strong>高基准得分</strong>：在未经调优的五种模型中，Random Forest 的基准准确率最高（0.8357）。</li>
+<li><strong>抗过拟合性</strong>：作为<strong>集成模型</strong>，它通过多数投票机制结合多个弱分类器，有效提高了模型的泛化能力和鲁棒性。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 最佳参数: &#123;&#x27;max_depth&#x27;: None, &#x27;min_samples_leaf&#x27;: 2, &#x27;min_samples_split&#x27;: 2, &#x27;n_estimators&#x27;: 200&#125;</span></span><br><span class="line"><span class="comment"># 最佳得分: 0.8417</span></span><br></pre></td></tr></table></figure>
+
+<p>穷举后得</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/posts/65c76649/" rel="prev" title="深度学习-ISIC2019数据集研究">
+                  <i class="fa fa-angle-left"></i> 深度学习-ISIC2019数据集研究
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">BeianNoFox</span>
+    <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+    <div class="wordcount">
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="fa fa-chart-line"></i>
+        </span>
+          <span>站点总字数：</span>
+        <span title="站点总字数">8k</span>
+      </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="fa fa-coffee"></i>
+        </span>
+          <span>站点阅读时长 &asymp;</span>
+        <span title="站点阅读时长">14 分钟</span>
+      </span>
+    </div>
+
+  </div>
+
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("03/03/2025 10:00:00"); //此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "+hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/BeianNoFox" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '32px',
+  right: '32px',
+  left: 'unset',
+  time: '0.3s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,728 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>YOLOv8安装</title>
+    <url>/blog/posts/1177eb85/</url>
+    <content><![CDATA[<p>yolo安装备忘录(？真的吗)</p>
+<span id="more"></span>
+
+<p>其实就是记录一下YOLOv8的安装过程免得自己以后忘了</p>
+<p>1、首先前往清华大学镜像站下载miniconda</p>
+<p><a href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/">Index of &#x2F;anaconda&#x2F;miniconda&#x2F; | 清华大学开源软件镜像站 | Tsinghua Open Source Mirror</a></p>
+<p>2、创建python3.10的虚拟环境</p>
+<p>从所有应用–&gt;Anaconda3–&gt;Anaconda Prompt，就进入了anaconda命令行</p>
+<p>然后，创建yolov8需要的虚拟环境，命令如下</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">conda create -n yolov8 python=3.10</span><br></pre></td></tr></table></figure>
+
+<p>查看已安装环境</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">conda env list</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1758109999325-3ebc6200-df7b-4e19-9dea-aa738d664316.png" alt="img"></p>
+<p>3、安装pytorch</p>
+<p>Github 地址： <a href="https://link.zhihu.com/?target=https://github.com/pytorch/pytorch">https:&#x2F;&#x2F;</a><a href="https://link.zhihu.com/?target=https://github.com/pytorch/pytorch">github.com&#x2F;pytorch&#x2F;pyto</a><a href="https://link.zhihu.com/?target=https://github.com/pytorch/pytorch">rch</a></p>
+<p>官网： <a href="https://link.zhihu.com/?target=https://pytorch.org/">https:&#x2F;&#x2F;</a><a href="https://link.zhihu.com/?target=https://pytorch.org/">pytorch.org&#x2F;</a></p>
+<p>论坛：<a href="https://link.zhihu.com/?target=https://discuss.pytorch.org/">https:&#x2F;&#x2F;</a><a href="https://link.zhihu.com/?target=https://discuss.pytorch.org/">discuss.pytorch.org&#x2F;</a></p>
+<p>安装</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pip install torch==2.7.1 torchvision==0.22.1 torchaudio==2.7.1 --index-url https://download.pytorch.org/whl/cu128</span><br></pre></td></tr></table></figure>
+
+<p>？我草怎么有3个g</p>
+<p>安装ultralytics</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pip install ultralytics</span><br></pre></td></tr></table></figure>
+
+<p>安装opencv</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pip install opencv-python</span><br></pre></td></tr></table></figure>
+
+<p>安装PyTorch</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1758111589666-45a04d66-2973-4f26-909c-8900503fd0d7.png" alt="img"></p>
+<p>发现又缺一些环境捏</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pip install PyYAML</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pip install matplotlib</span><br></pre></td></tr></table></figure>
+
+<p>尝试下能不能跑官方示例</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> ultralytics <span class="keyword">import</span> YOLO</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    model = YOLO(<span class="string">&#x27;yolov8n.pt&#x27;</span>)                     <span class="comment"># 加载预训练权重</span></span><br><span class="line">    model.train(data=<span class="string">&#x27;coco128.yaml&#x27;</span>,               <span class="comment"># 当前目录下的 yaml</span></span><br><span class="line">                epochs=<span class="number">3</span>,</span><br><span class="line">                workers=<span class="number">4</span>,                         <span class="comment"># Win 最多 8，4 就够</span></span><br><span class="line">                project=<span class="string">&#x27;runs&#x27;</span>,                    <span class="comment"># 日志/权重保存位置</span></span><br><span class="line">                name=<span class="string">&#x27;train&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>直接报错了捏</p>
+<p>怎么还差库</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pip install polars </span><br></pre></td></tr></table></figure>
+
+<p>装了后倒是跑完数据了，，，，还是报错，画图阶段崩了</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pip install scipy</span><br></pre></td></tr></table></figure>
+
+<p>顺利跑完一次了</p>
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OMR研究1</title>
+    <url>/blog/posts/31383a7d/</url>
+    <content><![CDATA[<p>基于OMR音符光学识别的研究</p>
+<span id="more"></span>
+
+<h2 id="数据集预处理"><a href="#数据集预处理" class="headerlink" title="数据集预处理"></a>数据集预处理</h2><p>本次使用数据集为<a href="https://zenodo.org/records/4012193">DeepScoresV2</a></p>
+<p>该数据集结构如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ds2_dense/</span><br><span class="line">├── images/               ← 所有乐谱图片（PNG）</span><br><span class="line">├── instance/             ← 物体检测（instance-level）标注信息（可能含分割/旋转框）</span><br><span class="line">├── segmentation/         ← 语义分割标签（每像素分类）</span><br><span class="line">├── deepscores_test.json  ← COCO 格式的测试集标注</span><br><span class="line">└── deepscores_train.json ← COCO 格式的训练集标注</span><br></pre></td></tr></table></figure>
+
+<p>可见该数据集使用obb_anns格式进行标注，我们需要将<strong>json</strong>转换成YOLO可使用的对应每一张图片的<strong>txt</strong>文件</p>
+<p><a href="https://github.com/yvan674/obb_anns">yvan674&#x2F;obb_anns: Toolkit to work with the Oriented Bounding Box annotation schema</a></p>
+<p>来分析一下deepscores_test.json</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">配置环境</span><br><span class="line"></span><br><span class="line">本次使用YOLOV8+MobileNetV3作为主干</span><br><span class="line"></span><br><span class="line">安装YOLOV8(Nano)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>pip install ultralytics&#x3D;&#x3D;8.3.133</p>
+<pre><code>
+</code></pre>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基于YOLO8的五线谱识别</title>
+    <url>/blog/posts/81fe0471/</url>
+    <content><![CDATA[<p>乱搞.JPG</p>
+<span id="more"></span>
+<h2 id="1-训练集路径设置"><a href="#1-训练集路径设置" class="headerlink" title="1.训练集路径设置"></a>1.训练集路径设置</h2><p>在yolo的根目录下新建一个Staff_Img文件夹以作区分。结构如下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1758170241355-db267bd4-722e-482b-bf7d-ebd359a4ba98.png" alt="img"></p>
+<p>其中images文件夹保存训练和输出的照片，分别对应文件夹train和test，而labels文件夹保存训练和输出的标注文件</p>
+<p>而Staff_model.pt和Staff_model.yaml以及Staff_parameter.yaml都是训练数据集用的配置文件和pytorch模型文件。其来源为原YOLO模型的训练文件，只有Staff部分可以替换成任意名称，否则可能出现寻址失败，找不到文件等错误。</p>
+<h2 id="2-数据集标记与导入"><a href="#2-数据集标记与导入" class="headerlink" title="2.数据集标记与导入"></a>2.数据集标记与导入</h2><p>数据集采用<a href="https://tuggeluk.github.io/deepscores/">DeepScores</a>的公开数据，其中包括各种乐谱符号的标注json文件。本次只标注音符的位置，需要自己标注TXT文件。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1758170455458-51135662-b389-4d9e-9455-2cec15ff5e03.png" alt="img"></p>
+<p>一般100张左右单行谱面的图片训练可以达到比较好的效果，这是YOLO的识别原理和图像分割相关导致的。而DeepScores数据集都是完整的谱面，这里就涉及到批量裁剪图片</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> os.path</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指明被遍历的文件夹</span></span><br><span class="line">rootdir = <span class="string">r&#x27;D:/blog/python/img&#x27;</span></span><br><span class="line"><span class="keyword">for</span> parent, dirnames, filenames <span class="keyword">in</span> os.walk(rootdir):  <span class="comment"># 遍历每一张图片</span></span><br><span class="line">    filenames.sort()</span><br><span class="line">    <span class="keyword">for</span> filename <span class="keyword">in</span> filenames:</span><br><span class="line">        <span class="comment"># print(&#x27;parent is :&#x27; + parent)#parent is :/home/mmediting/data/4K/valid/gt/000</span></span><br><span class="line">        <span class="comment"># print(&#x27;filename is :&#x27; + filename)#filename is :00000084.png</span></span><br><span class="line">        currentPath = os.path.join(parent, filename)</span><br><span class="line">        <span class="built_in">print</span>(</span><br><span class="line">            <span class="string">&#x27;the fulll name of the file is :&#x27;</span> + currentPath)  <span class="comment"># the fulll name of the file is :/home/mmediting/data/4K/valid/gt/000/00000084.png</span></span><br><span class="line"></span><br><span class="line">        img = Image.<span class="built_in">open</span>(currentPath)</span><br><span class="line">        <span class="comment"># print (img.format, img.size, img.mode)#PNG (3840, 2160) RGB</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 设置左、上、右、下的像素</span></span><br><span class="line">        <span class="comment"># gt</span></span><br><span class="line">        <span class="comment"># box1 = (0, 0, 1920, 1080)</span></span><br><span class="line">        <span class="comment"># box2 = (0, 1080, 1920, 2160)</span></span><br><span class="line">        <span class="comment"># box3 = (1920, 0, 3840, 1080)</span></span><br><span class="line">        <span class="comment"># box4 = (1920, 1080, 3840, 2160)</span></span><br><span class="line">        <span class="comment"># lr</span></span><br><span class="line">        box1 = (<span class="number">0</span>, <span class="number">0</span>, <span class="number">960</span>, <span class="number">270</span>)</span><br><span class="line">        box2 = (<span class="number">0</span>, <span class="number">270</span>, <span class="number">960</span>, <span class="number">540</span>)</span><br><span class="line">        box3 = (<span class="number">120</span>, <span class="number">0</span>, <span class="number">1920</span>, <span class="number">270</span>)</span><br><span class="line">        box4 = (<span class="number">120</span>, <span class="number">270</span>, <span class="number">1920</span>, <span class="number">540</span>)</span><br><span class="line"></span><br><span class="line">        image1 = img.crop(box4)  <span class="comment"># 图像裁剪</span></span><br><span class="line">        <span class="comment">##存储裁剪得到的图像</span></span><br><span class="line">        image1.save(<span class="string">r&quot;D:/blog/python/train-ready&quot;</span> + <span class="string">&#x27;/&#x27;</span> + filename)</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-使用labelme标注数据集"><a href="#3-使用labelme标注数据集" class="headerlink" title="3.使用labelme标注数据集"></a>3.使用labelme标注数据集</h2><p>将上面裁剪出的单行铺面使用labelme进行单独的标记</p>
+<p><em>ps:后面没这么干了，后面尝试使用labelme标记出五线谱的范围去跑yolo</em></p>
+<h3 id="1-创建anaconda虚拟环境labelme"><a href="#1-创建anaconda虚拟环境labelme" class="headerlink" title="1.创建anaconda虚拟环境labelme"></a>1.创建anaconda虚拟环境labelme</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda create -n labelme python=3.10</span><br></pre></td></tr></table></figure>
+
+<p>激活环境</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda activate labelme</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-安装labelme依赖环境"><a href="#2-安装labelme依赖环境" class="headerlink" title="2.安装labelme依赖环境"></a>2.安装labelme依赖环境</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda install pyqt</span><br><span class="line">conda install pillow</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-安装labelme"><a href="#3-安装labelme" class="headerlink" title="3.安装labelme"></a>3.安装labelme</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda install labelme</span><br><span class="line">#失败可尝试pip安装</span><br><span class="line">pip install labelme</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-打开labelme并标记数据集"><a href="#4-打开labelme并标记数据集" class="headerlink" title="4.打开labelme并标记数据集"></a>4.打开labelme并标记数据集</h3><p>好吧换一个方法，先训练出能识别出每行五线谱的能力</p>
+<p>打开labelme</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">labelme</span><br></pre></td></tr></table></figure>
+
+<p>把每行五线谱都框起来并且留空一部分（后续裁条时会自动外扩 30 px，防止切掉加线音）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Staff\page_level\images 的数据用于训练</span><br><span class="line">Staff\page_level\val 的数据用于验证</span><br></pre></td></tr></table></figure>
+
+<p>保存标签为 <strong>staff</strong></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1758172528908-a0df935f-3757-47fe-97d9-783b5230b91c.png" alt="img"></p>
+<p>后将json文件转换成txt</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json, os</span><br><span class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">json_dir  = Path(<span class="string">r&#x27;D:\blog\Staff\page_level\images\val&#x27;</span>)</span><br><span class="line">out_dir   = Path(<span class="string">r&#x27;D:\blog\Staff\page_level\labels\val&#x27;</span>)</span><br><span class="line">out_dir.mkdir(parents=<span class="literal">True</span>, exist_ok=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> jf <span class="keyword">in</span> json_dir.glob(<span class="string">&#x27;*.json&#x27;</span>):</span><br><span class="line">    data = json.load(<span class="built_in">open</span>(jf))</span><br><span class="line">    h, w = data[<span class="string">&#x27;imageHeight&#x27;</span>], data[<span class="string">&#x27;imageWidth&#x27;</span>]</span><br><span class="line">    txt_path = out_dir / <span class="string">f&quot;<span class="subst">&#123;jf.stem&#125;</span>.txt&quot;</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(txt_path, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> shape <span class="keyword">in</span> data[<span class="string">&#x27;shapes&#x27;</span>]:</span><br><span class="line">            <span class="keyword">if</span> shape[<span class="string">&#x27;label&#x27;</span>] != <span class="string">&#x27;staff&#x27;</span>: <span class="keyword">continue</span></span><br><span class="line">            pts = np.array(shape[<span class="string">&#x27;points&#x27;</span>])          <span class="comment"># [[x,y], [x,y]...]</span></span><br><span class="line">            x1, y1 = pts.<span class="built_in">min</span>(<span class="number">0</span>)</span><br><span class="line">            x2, y2 = pts.<span class="built_in">max</span>(<span class="number">0</span>)</span><br><span class="line">            xc = ((x1+x2)/<span class="number">2</span>)/w</span><br><span class="line">            yc = ((y1+y2)/<span class="number">2</span>)/h</span><br><span class="line">            nw = (x2-x1)/w</span><br><span class="line">            nh = (y2-y1)/h</span><br><span class="line">            f.write(<span class="string">f&#x27;0 <span class="subst">&#123;xc&#125;</span> <span class="subst">&#123;yc&#125;</span> <span class="subst">&#123;nw&#125;</span> <span class="subst">&#123;nh&#125;</span>\n&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>数据量过小看看能跑出什么准确度吧</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> ultralytics <span class="keyword">import</span> YOLO</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    os.chdir(<span class="string">r&#x27;D:\blog\Staff&#x27;</span>)</span><br><span class="line">    model = YOLO(<span class="string">&#x27;yolov8n.pt&#x27;</span>)</span><br><span class="line">    model.train(</span><br><span class="line">        data=<span class="string">&#x27;page_level/staff.yaml&#x27;</span>,</span><br><span class="line">        epochs=<span class="number">150</span>,</span><br><span class="line">        imgsz=<span class="number">1280</span>,</span><br><span class="line">        batch=<span class="number">4</span>,</span><br><span class="line">        project=<span class="string">&#x27;runs&#x27;</span>,</span><br><span class="line">        name=<span class="string">&#x27;staff&#x27;</span>,</span><br><span class="line">        exist_ok=<span class="literal">True</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>惨不忍睹</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1758177776490-93fe5044-4215-4a49-b0d0-b09feb29025f.png" alt="img"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1758177793063-9274bd3e-941b-4226-8cda-a4c4021097ab.png" alt="img"></p>
+<p>五线谱我们之间还是不要联系了，我把简谱误会</p>
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>机器学习-Titanic数据集</title>
+    <url>/blog/posts/30b73690/</url>
+    <content><![CDATA[<p>泰坦尼克号幸存者 问题</p>
+<span id="more"></span>
+
+<h1 id="数据集简介"><a href="#数据集简介" class="headerlink" title="数据集简介"></a>数据集简介</h1><p>本次使用的数据集为<a href="https://www.kaggle.com/competitions/titanic">Titanic - Machine Learning from Disaster | Kaggle</a>，为Kaggle的竞赛题，比赛选择了泰坦尼克号作为背景，并提供了样本数据以及测试数据，要求我们使用机器学习创建一个模型，预测哪些乘客在泰坦尼克号沉船中幸存下来</p>
+<hr>
+<h1 id="数据集预览"><a href="#数据集预览" class="headerlink" title="数据集预览"></a>数据集预览</h1><p>打开数据集我们发现该数据集内，每位乘客拥有12项属性</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1764915998169-983c0cd2-926a-40c2-9bb2-bd93998d6b2c.png" alt="img"></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>属性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Passengerld</td>
+<td>唯一标识符</td>
+</tr>
+<tr>
+<td>Survived</td>
+<td>是否存活，0否、1是</td>
+</tr>
+<tr>
+<td>Pclass</td>
+<td>客舱等级，分为1、2、3级</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>姓名</td>
+</tr>
+<tr>
+<td>Sex</td>
+<td>性别，分为male、female</td>
+</tr>
+<tr>
+<td>Age</td>
+<td>年龄</td>
+</tr>
+<tr>
+<td>SibSp</td>
+<td>船上乘客的兄弟姐妹&#x2F;配偶数量</td>
+</tr>
+<tr>
+<td>Parch</td>
+<td>船上乘客的父母&#x2F;子女数量</td>
+</tr>
+<tr>
+<td>Ticket</td>
+<td>船票号</td>
+</tr>
+<tr>
+<td>Fare</td>
+<td>船票价格</td>
+</tr>
+<tr>
+<td>Cabin</td>
+<td>客舱编号</td>
+</tr>
+<tr>
+<td>Embarked</td>
+<td>上船的港口编号，分为S、C、Q</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h2><h3 id="查看数据"><a href="#查看数据" class="headerlink" title="查看数据"></a>查看数据</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">train=pd.read_csv(<span class="string">&#x27;./data/train.csv&#x27;</span>)</span><br><span class="line">test=pd.read_csv(<span class="string">&#x27;./data/test.csv&#x27;</span>)</span><br><span class="line">pd.set_option(<span class="string">&#x27;display.max_columns&#x27;</span>, <span class="literal">None</span>)</span><br><span class="line">pd.set_option(<span class="string">&#x27;display.width&#x27;</span>, <span class="literal">None</span>)</span><br><span class="line">data = pd.concat([train, test], ignore_index=<span class="literal">True</span>)</span><br><span class="line"><span class="built_in">print</span>(data.head())</span><br><span class="line"><span class="built_in">print</span>(data.describe())</span><br><span class="line"><span class="built_in">print</span>(data.info())</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1764920459773-2e18ab2c-51d0-401b-a3d0-7a8b2e844bd9.png" alt="img"></p>
+<blockquote>
+<p>通过分析发现：数据共有1309行</p>
+<p>其中缺失数值的有：年龄(Age)、船票价格(Fare)、客舱编号(Cabin)、登船港口(Embarked)</p>
+<p>数值类有:</p>
+<ol>
+<li><strong>Age</strong>总数据1046条，缺失了1309-1046&#x3D;263条，缺失率20%</li>
+<li><strong>Fare</strong>总数据1308条，缺失1条</li>
+</ol>
+<p>字符串类有：</p>
+<ol>
+<li><strong>Cabin</strong>总数据295条，缺失了1039-295&#x3D;1014条，缺失率77.5%</li>
+<li><strong>Embarked</strong>总数据1307条，缺失了2条</li>
+</ol>
+</blockquote>
+<hr>
+<h3 id="缺失数据填充"><a href="#缺失数据填充" class="headerlink" title="缺失数据填充"></a>缺失数据填充</h3><p>接下来我们对于缺失数据进行填充</p>
+<ul>
+<li>对于数值类我们使用<strong>fillna</strong>函数取中间值进行填充</li>
+<li>对于Embarked我们采用最常见的类别填充</li>
+<li>对于Cabin我们使用U来填充</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&quot;缺失补全后:&quot;</span>)</span><br><span class="line"><span class="comment">#求平均</span></span><br><span class="line">data[<span class="string">&#x27;Age&#x27;</span>] = data[<span class="string">&#x27;Age&#x27;</span>].fillna(data[<span class="string">&#x27;Age&#x27;</span>].mean())</span><br><span class="line">data[<span class="string">&#x27;Fare&#x27;</span>] = data[<span class="string">&#x27;Fare&#x27;</span>].fillna(data[<span class="string">&#x27;Fare&#x27;</span>].mean())</span><br><span class="line"><span class="comment">#取最多</span></span><br><span class="line">data[<span class="string">&#x27;Embarked&#x27;</span>]=data[<span class="string">&#x27;Embarked&#x27;</span>].fillna(<span class="string">&#x27;S&#x27;</span>)</span><br><span class="line"><span class="comment">#未知使用U代替</span></span><br><span class="line">data[<span class="string">&#x27;Cabin&#x27;</span>]=data[<span class="string">&#x27;Cabin&#x27;</span>].fillna(<span class="string">&#x27;U&#x27;</span>)</span><br><span class="line">data.info()</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="数据特征工程与特征提取"><a href="#数据特征工程与特征提取" class="headerlink" title="数据特征工程与特征提取"></a>数据特征工程与特征提取</h2><p>在 Titanic 生存预测中，数据预处理和特征工程是提高模型准确率的关键步骤。</p>
+<h3 id="性别"><a href="#性别" class="headerlink" title="性别"></a>性别</h3><p>乘客的性别是生存概率的重要指标。我们将性别映射为数值：</p>
+<ul>
+<li>男性 → 1</li>
+<li>女性 → 0</li>
+</ul>
+<p>这样机器学习模型可以直接理解性别的差异。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">sex_Dict = &#123;<span class="string">&#x27;male&#x27;</span>: <span class="number">1</span>, <span class="string">&#x27;female&#x27;</span>: <span class="number">0</span>&#125;</span><br><span class="line">data[<span class="string">&#x27;Sex&#x27;</span>] = data[<span class="string">&#x27;Sex&#x27;</span>].<span class="built_in">map</span>(sex_Dict)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="客舱等级"><a href="#客舱等级" class="headerlink" title="客舱等级"></a>客舱等级</h3><p>Pclass 代表舱位等级，也可能反映乘客的社会地位。我们同样使用 One-hot 编码，将其转为三个独立特征：</p>
+<ul>
+<li>Pclass_1</li>
+<li>Pclass_2</li>
+<li>Pclass_3</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pclassDf = pd.get_dummies(data[<span class="string">&#x27;Pclass&#x27;</span>], prefix=<span class="string">&#x27;Pclass&#x27;</span>)</span><br><span class="line">data = pd.concat([data, pclassDf], axis=<span class="number">1</span>)</span><br><span class="line">data.drop(<span class="string">&#x27;Pclass&#x27;</span>, axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="头衔"><a href="#头衔" class="headerlink" title="头衔"></a>头衔</h3><p>乘客姓名中包含头衔（Title），如 Mr、Mrs、Miss 等，这能反映社会身份和年龄特征。<br> 我们从 Name 中提取头衔，并将罕见或等价头衔归为五类：</p>
+<ul>
+<li>Mr</li>
+<li>Miss</li>
+<li>Mrs</li>
+<li>Master</li>
+<li>Rare（稀有头衔，如贵族、军衔、医生等）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data[<span class="string">&#x27;Title&#x27;</span>] = data[<span class="string">&#x27;Name&#x27;</span>].<span class="built_in">str</span>.extract(<span class="string">&#x27; ([A-Za-z]+)\.&#x27;</span>, expand=<span class="literal">False</span>)</span><br><span class="line">data[<span class="string">&#x27;Title&#x27;</span>] = data[<span class="string">&#x27;Title&#x27;</span>].replace(&#123;</span><br><span class="line">    <span class="string">&#x27;Mlle&#x27;</span>: <span class="string">&#x27;Miss&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Ms&#x27;</span>: <span class="string">&#x27;Miss&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mme&#x27;</span>: <span class="string">&#x27;Mrs&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Countess&#x27;</span>: <span class="string">&#x27;Rare&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Lady&#x27;</span>: <span class="string">&#x27;Rare&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Sir&#x27;</span>: <span class="string">&#x27;Rare&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Jonkheer&#x27;</span>: <span class="string">&#x27;Rare&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Dona&#x27;</span>: <span class="string">&#x27;Rare&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Dr&#x27;</span>: <span class="string">&#x27;Rare&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Major&#x27;</span>: <span class="string">&#x27;Rare&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Col&#x27;</span>: <span class="string">&#x27;Rare&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Rev&#x27;</span>: <span class="string">&#x27;Rare&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Capt&#x27;</span>: <span class="string">&#x27;Rare&#x27;</span></span><br><span class="line">&#125;)</span><br><span class="line">titleDf = pd.get_dummies(data[<span class="string">&#x27;Title&#x27;</span>], prefix=<span class="string">&#x27;Title&#x27;</span>)</span><br><span class="line">data = pd.concat([data, titleDf], axis=<span class="number">1</span>)</span><br><span class="line">data.drop([<span class="string">&#x27;Title&#x27;</span>, <span class="string">&#x27;Name&#x27;</span>], axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="登船港口"><a href="#登船港口" class="headerlink" title="登船港口"></a>登船港口</h3><p>乘客的登船港口也可能影响生存率。由于它是类别型变量，我们使用 One-hot 编码，将每个港口拆分为独立的二值特征：</p>
+<ul>
+<li>Embarked_C</li>
+<li>Embarked_Q</li>
+<li>Embarked_S</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">embarkedDf = pd.get_dummies(data[<span class="string">&#x27;Embarked&#x27;</span>], prefix=<span class="string">&#x27;Embarked&#x27;</span>)</span><br><span class="line">data = pd.concat([data, embarkedDf], axis=<span class="number">1</span>)</span><br><span class="line">data.drop(<span class="string">&#x27;Embarked&#x27;</span>, axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="家庭特征"><a href="#家庭特征" class="headerlink" title="家庭特征"></a>家庭特征</h3><ul>
+<li>家庭成员数量：<code>FamilySize = SibSp + Parch + 1</code></li>
+<li>是否独自一人：<code>IsAlone = 1 if FamilySize == 1 else 0</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data[<span class="string">&#x27;FamilySize&#x27;</span>] = data[<span class="string">&#x27;SibSp&#x27;</span>] + data[<span class="string">&#x27;Parch&#x27;</span>] + <span class="number">1</span></span><br><span class="line">data[<span class="string">&#x27;IsAlone&#x27;</span>] = (data[<span class="string">&#x27;FamilySize&#x27;</span>] == <span class="number">1</span>).astype(<span class="built_in">int</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="客舱位置"><a href="#客舱位置" class="headerlink" title="客舱位置"></a>客舱位置</h3><p>Cabin 信息可以提供乘客所在甲板的位置。我们取 Cabin 的首字母作为 Deck，并用 One-hot 编码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data[<span class="string">&#x27;Deck&#x27;</span>] = data[<span class="string">&#x27;Cabin&#x27;</span>].apply(<span class="keyword">lambda</span> x: x[<span class="number">0</span>])</span><br><span class="line">deckDf = pd.get_dummies(data[<span class="string">&#x27;Deck&#x27;</span>], prefix=<span class="string">&#x27;Deck&#x27;</span>)</span><br><span class="line">data = pd.concat([data, deckDf], axis=<span class="number">1</span>)</span><br><span class="line">data.drop(<span class="string">&#x27;Deck&#x27;</span>, axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="删除无用项"><a href="#删除无用项" class="headerlink" title="删除无用项"></a>删除无用项</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#删除无用的</span></span><br><span class="line">data.drop(<span class="string">&#x27;PassengerId&#x27;</span>, axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">data.drop(<span class="string">&#x27;SibSp&#x27;</span>, axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">data.drop(<span class="string">&#x27;Parch&#x27;</span>, axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">data.drop(<span class="string">&#x27;Ticket&#x27;</span>, axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>特征名</th>
+<th>类型</th>
+<th>来源 &#x2F; 处理方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sex</td>
+<td>数值型</td>
+<td>原始 Sex → 男1&#x2F;女0</td>
+<td>性别对生存率影响大</td>
+</tr>
+<tr>
+<td>Embarked_C &#x2F; Embarked_Q &#x2F; Embarked_S</td>
+<td>类别型（One-hot）</td>
+<td>原始 Embarked → One-hot 编码</td>
+<td>登船港口，不同港口生存率不同</td>
+</tr>
+<tr>
+<td>Pclass_1 &#x2F; Pclass_2 &#x2F; Pclass_3</td>
+<td>类别型（One-hot）</td>
+<td>原始 Pclass → One-hot 编码</td>
+<td>舱位等级，反映社会地位和生存概率</td>
+</tr>
+<tr>
+<td>Title_Mr &#x2F; Title_Miss &#x2F; Title_Mrs &#x2F; Title_Master &#x2F; Title_Rare</td>
+<td>类别型（One-hot）</td>
+<td>从 Name 提取头衔，并合并稀有类别</td>
+<td>头衔可反映年龄、性别和社会身份</td>
+</tr>
+<tr>
+<td>FamilySize</td>
+<td>数值型</td>
+<td>SibSp + Parch + 1</td>
+<td>家庭成员总数，家庭大小可能影响生存率</td>
+</tr>
+<tr>
+<td>IsAlone</td>
+<td>数值型</td>
+<td>FamilySize &#x3D;&#x3D; 1 → 1，否则 0</td>
+<td>是否独自一人登船，对生存率有影响</td>
+</tr>
+<tr>
+<td>Deck_A ~ Deck_U</td>
+<td>类别型（One-hot）</td>
+<td>从 Cabin 提取首字母 → One-hot</td>
+<td>乘客所在甲板位置，对逃生可能性有影响</td>
+</tr>
+<tr>
+<td>Age</td>
+<td>数值型</td>
+<td>原始 Age → 均值填充缺失值</td>
+<td>乘客年龄</td>
+</tr>
+<tr>
+<td>Fare</td>
+<td>数值型</td>
+<td>原始 Fare → 均值填充缺失值</td>
+<td>票价，反映舱位和社会经济状况</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="模型搭建与评估"><a href="#模型搭建与评估" class="headerlink" title="模型搭建与评估"></a>模型搭建与评估</h1><h2 id="数据标准化与划分"><a href="#数据标准化与划分" class="headerlink" title="数据标准化与划分"></a>数据标准化与划分</h2><p>为了优化基于距离的算法性能，并消除特征量纲影响，我们对数值特征进行了<strong>标准化</strong>。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line"></span><br><span class="line"><span class="comment"># 恢复训练集和测试集</span></span><br><span class="line">source_train = data.loc[:<span class="number">890</span>]</span><br><span class="line">source_test = data.loc[<span class="number">891</span>:]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分离标签</span></span><br><span class="line">y = source_train[<span class="string">&#x27;Survived&#x27;</span>]</span><br><span class="line">X = source_train.drop(<span class="string">&#x27;Survived&#x27;</span>, axis=<span class="number">1</span>)</span><br><span class="line">X_predict = source_test.drop(<span class="string">&#x27;Survived&#x27;</span>, axis=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 标准化处理</span></span><br><span class="line">scaler = StandardScaler()</span><br><span class="line">X_scaled = scaler.fit_transform(X)</span><br><span class="line">X_predict_scaled = scaler.transform(X_predict)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 划分验证集</span></span><br><span class="line">X_train, X_val, y_train, y_val = train_test_split(X_scaled, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="关联性分析"><a href="#关联性分析" class="headerlink" title="关联性分析"></a>关联性分析</h2><p>我们通过绘制相关性热力图，观察特征与目标变量 <code>Survived</code> 的关系。</p>
+<p>Python</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">plt.figure(figsize=(<span class="number">14</span>, <span class="number">12</span>))</span><br><span class="line">sns.heatmap(source_train.corr(), annot=<span class="literal">True</span>, cmap=<span class="string">&#x27;coolwarm&#x27;</span>, fmt=<span class="string">&#x27;.2f&#x27;</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;Correlation Matrix&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>关键发现：</strong></p>
+<ol>
+<li><strong>Sex</strong> 与生存率呈强正相关（女性生存率高，映射为 0）。</li>
+<li><strong>Pclass</strong> 与生存率呈强负相关（一等舱生存率高）。</li>
+<li><strong>Title_Mr</strong> 与生存率呈强负相关，<strong>Title_Mrs&#x2F;Miss</strong> 呈强正相关。</li>
+</ol>
+</blockquote>
+<hr>
+<h2 id="模型搭建与评估-1"><a href="#模型搭建与评估-1" class="headerlink" title="模型搭建与评估"></a>模型搭建与评估</h2><h3 id="数据标准化与划分-1"><a href="#数据标准化与划分-1" class="headerlink" title="数据标准化与划分"></a>数据标准化与划分</h3><p>为了优化基于距离的算法性能，并消除特征量纲影响，我们对数值特征进行了**标准化 (StandardScaler)**。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line"></span><br><span class="line"><span class="comment"># 恢复训练集和测试集</span></span><br><span class="line">source_train = data.loc[:<span class="number">890</span>]</span><br><span class="line">source_test = data.loc[<span class="number">891</span>:]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分离标签</span></span><br><span class="line">y = source_train[<span class="string">&#x27;Survived&#x27;</span>]</span><br><span class="line">X = source_train.drop(<span class="string">&#x27;Survived&#x27;</span>, axis=<span class="number">1</span>)</span><br><span class="line">X_predict = source_test.drop(<span class="string">&#x27;Survived&#x27;</span>, axis=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 标准化处理</span></span><br><span class="line">scaler = StandardScaler()</span><br><span class="line">X_scaled = scaler.fit_transform(X)</span><br><span class="line">X_predict_scaled = scaler.transform(X_predict)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 划分验证集</span></span><br><span class="line">X_train, X_val, y_train, y_val = train_test_split(X_scaled, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="模型对比"><a href="#模型对比" class="headerlink" title="模型对比"></a>模型对比</h3><p>我们实现了至少五种不同的机器学习模型，并使用5折交叉验证对训练集数据进行基准性能评估。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1765261323308-d78f3471-2b0e-4462-abaa-33a4bc714c2a.png" alt="img"></p>
+<hr>
+<h2 id="模型优化与预测"><a href="#模型优化与预测" class="headerlink" title="模型优化与预测"></a>模型优化与预测</h2><h3 id="最佳模型的选择理由和评估结果"><a href="#最佳模型的选择理由和评估结果" class="headerlink" title="最佳模型的选择理由和评估结果"></a>最佳模型的选择理由和评估结果</h3><p>选择随机森林作为最佳模型的主要原因在于：</p>
+<ol>
+<li><strong>高基准得分</strong>：在未经调优的五种模型中，Random Forest 的基准准确率最高（0.8357）。</li>
+<li><strong>抗过拟合性</strong>：作为<strong>集成模型</strong>，它通过多数投票机制结合多个弱分类器，有效提高了模型的泛化能力和鲁棒性。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 最佳参数: &#123;&#x27;max_depth&#x27;: None, &#x27;min_samples_leaf&#x27;: 2, &#x27;min_samples_split&#x27;: 2, &#x27;n_estimators&#x27;: 200&#125;</span></span><br><span class="line"><span class="comment"># 最佳得分: 0.8417</span></span><br></pre></td></tr></table></figure>
+
+<p>穷举后得</p>
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>机器学习1-JupyterNotebook安装</title>
+    <url>/blog/posts/86341b81/</url>
+    <content><![CDATA[<p>机器学习第一次实验课环境安装</p>
+<span id="more"></span>
+
+<p>下载conda</p>
+<p><a href="https://www.anaconda.com/download">Download Anaconda Distribution | Anaconda</a></p>
+<p>安装完成后打开Anaconda Prompt</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1761115385196-bfd8f6b3-9ae2-493f-80e9-c2b2d8bd3580.png" alt="img"></p>
+<p>创建notebook的虚拟环境</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">conda create -n notebook python==3.9</span><br></pre></td></tr></table></figure>
+
+<p>切换虚拟环境</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">conda activate notebook</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1761115531060-41893d17-cb9c-4120-8a38-ba3147c75b38.png" alt="img"></p>
+<p>安装pandas、scikit-learn库</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">conda install anaconda::pandas</span><br><span class="line">conda install anaconda::scikit-learn</span><br></pre></td></tr></table></figure>
+
+<p>安装Jupyter Notebook</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">conda install jupyter notebook</span><br></pre></td></tr></table></figure>
+
+<p>注册内核到Jupyter</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">conda install ipykernel</span><br></pre></td></tr></table></figure>
+
+<p>虚拟环境写入核</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python -m ipykernel install --user --name n --display-name n_kernel</span><br></pre></td></tr></table></figure>
+
+<p>安装中文</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">conda install -c conda-forge jupyterlab-language-pack-zh-cn</span><br></pre></td></tr></table></figure>
+
+<p>运行Jupyter Notebook</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">CD</span> 指定文件夹</span><br><span class="line"><span class="built_in">CD</span> C:\notebook</span><br><span class="line">jupyter notebook</span><br></pre></td></tr></table></figure>
+
+<p>更改内核</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1761116348026-a2962be0-5b9f-4fbb-a98d-e56769a34c93.png" alt="img"></p>
+<p>运行测试</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1761116408762-8a07c329-0dfd-4b89-ba36-232dc7fd9b18.png" alt="img"></p>
+]]></content>
+      <categories>
+        <category>学习</category>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深度学习-ConvNeXt-Tiny在CIFAR-10上的分类实验</title>
+    <url>/blog/posts/d9c020ad/</url>
+    <content><![CDATA[<p>基于 <strong>ConvNeXt Tiny</strong> 模型，在 <strong>CIFAR-10 数据集</strong> 上完成图像分类任务。<br>本实验旨在理解现代卷积网络的结构设计思想，并比较其在小规模数据集上的表现。</p>
+<span id="more"></span>
+
+<hr>
+<h3 id="准备数据集"><a href="#准备数据集" class="headerlink" title="准备数据集"></a>准备数据集</h3><h4 id="CIFAR-10-数据集简介"><a href="#CIFAR-10-数据集简介" class="headerlink" title="CIFAR-10 数据集简介"></a>CIFAR-10 数据集简介</h4><p><a href="https://www.cs.toronto.edu/~kriz/cifar.html">CIFAR-10</a> 是由加拿大多伦多大学收集的经典小型彩色图像数据集，广泛用于图像分类任务的模型测试与基准评估。</p>
+<ul>
+<li>样本规模：50,000 张训练图像 + 10,000 张测试图像  </li>
+<li>图片维度：32 × 32 × 3（RGB 三通道）  </li>
+<li>分类标签：10 类</li>
+</ul>
+<p>图片占位符</p>
+<h4 id="导入库"><a href="#导入库" class="headerlink" title="导入库"></a>导入库</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torchvision.transforms <span class="keyword">as</span> transforms</span><br><span class="line"><span class="keyword">from</span> torchvision.datasets <span class="keyword">import</span> CIFAR10</span><br><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> DataLoader</span><br><span class="line"><span class="keyword">from</span> torchvision.models <span class="keyword">import</span> convnext_tiny</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">os.environ[<span class="string">&quot;KMP_DUPLICATE_LIB_OK&quot;</span>] = <span class="string">&quot;TRUE&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">set_seed</span>(<span class="params">seed</span>):</span><br><span class="line">    random.seed(seed)</span><br><span class="line">    np.random.seed(seed)</span><br><span class="line">    torch.manual_seed(seed)</span><br><span class="line">    torch.cuda.manual_seed_all(seed)</span><br><span class="line">    torch.backends.cudnn.deterministic = <span class="literal">True</span></span><br><span class="line">    torch.backends.cudnn.benchmark = <span class="literal">False</span></span><br><span class="line">    os.environ[<span class="string">&#x27;PYTHONHASHSEED&#x27;</span>] = <span class="built_in">str</span>(seed)</span><br><span class="line"></span><br><span class="line">set_seed(<span class="number">42</span>)  <span class="comment"># 固定随机种子</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="数据加载与预处理"><a href="#数据加载与预处理" class="headerlink" title="数据加载与预处理"></a>数据加载与预处理</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#参数设置</span></span><br><span class="line">DEVICE     = <span class="string">&#x27;cuda&#x27;</span> <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">&#x27;cpu&#x27;</span></span><br><span class="line">EPOCHS     = <span class="number">20</span></span><br><span class="line">BATCH_SIZE = <span class="number">128</span></span><br><span class="line">LR         = <span class="number">0.001</span></span><br><span class="line">WD         = <span class="number">0.0005</span></span><br><span class="line">IMG_SIZE   = <span class="number">64</span></span><br><span class="line">NUM_WORKER = <span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#图像均值和方差（CIFAR-10）</span></span><br><span class="line">MEAN, STD = (<span class="number">0.4914</span>, <span class="number">0.4822</span>, <span class="number">0.4465</span>), (<span class="number">0.2470</span>, <span class="number">0.2435</span>, <span class="number">0.2616</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#数据加载与预处理</span></span><br><span class="line">train_tf = transforms.Compose([</span><br><span class="line">    transforms.Resize(IMG_SIZE),</span><br><span class="line">    transforms.RandomCrop(IMG_SIZE, padding=<span class="number">8</span>),</span><br><span class="line">    transforms.RandomHorizontalFlip(),</span><br><span class="line">    transforms.ToTensor(),</span><br><span class="line">    transforms.Normalize(MEAN, STD)</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line">test_tf = transforms.Compose([</span><br><span class="line">    transforms.Resize(IMG_SIZE),</span><br><span class="line">    transforms.ToTensor(),</span><br><span class="line">    transforms.Normalize(MEAN, STD)</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line">train_data = CIFAR10(root=<span class="string">&#x27;./data&#x27;</span>, train=<span class="literal">True</span>, transform=train_tf, download=<span class="literal">True</span>)</span><br><span class="line">test_data  = CIFAR10(root=<span class="string">&#x27;./data&#x27;</span>, train=<span class="literal">False</span>, transform=test_tf)</span><br><span class="line"></span><br><span class="line">train_loader = DataLoader(train_data, batch_size=BATCH_SIZE, shuffle=<span class="literal">True</span>,  num_workers=NUM_WORKER, pin_memory=<span class="literal">True</span>)</span><br><span class="line">test_loader  = DataLoader(test_data,  batch_size=BATCH_SIZE, shuffle=<span class="literal">False</span>, num_workers=NUM_WORKER, pin_memory=<span class="literal">True</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Resize 将图像统一缩放到 64×64，以匹配 ConvNeXt 结构输入<br>RandomCrop 与 RandomHorizontalFlip 用于数据增强，提高模型泛化能力<br>Normalize 按通道归一化，匹配 ImageNet 预训练权重的统计特性</p>
+</blockquote>
+<hr>
+<h3 id="模型设计与思路"><a href="#模型设计与思路" class="headerlink" title="模型设计与思路"></a>模型设计与思路</h3><h4 id="ConvNeXt-Tiny-网络结构设计"><a href="#ConvNeXt-Tiny-网络结构设计" class="headerlink" title="ConvNeXt Tiny 网络结构设计"></a>ConvNeXt Tiny 网络结构设计</h4><p>ConvNeXt 是 Facebook Research 于 2022 年提出 的一种新型卷积神经网络结构。它基于经典的 ResNet 框架，但在多个方面进行了“现代化”改进，使传统 CNN 的性能接近 Vision Transformer（ViT）：</p>
+<ul>
+<li>使用 更大的卷积核（7×7），增强感受野；</li>
+<li>替换传统的 BatchNorm 为 LayerNorm，使网络训练更稳定；</li>
+<li>简化残差块结构，采用更深层、更宽的网络设计；</li>
+<li>引入 倒残差设计（IB），减少计算量；</li>
+<li>保留卷积网络的 归纳偏置与高效性，兼顾解释性与性能。</li>
+</ul>
+<p>在本实验中，我们选用 ConvNeXt-Tiny 作为特征提取主干网络，并在其顶部添加自定义的全连接分类头，用于实现 CIFAR-10 数据集的 10 类分类任务。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#定义模型</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">build_model</span>(<span class="params">device, img_size=<span class="number">64</span></span>):</span><br><span class="line">    backbone = convnext_tiny(weights=<span class="string">&#x27;IMAGENET1K_V1&#x27;</span>)</span><br><span class="line">    backbone.classifier = nn.Identity()</span><br><span class="line"></span><br><span class="line">    <span class="comment">#推理一次确定特征维度</span></span><br><span class="line">    backbone.<span class="built_in">eval</span>()</span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        dim = backbone(torch.randn(<span class="number">1</span>, <span class="number">3</span>, img_size, img_size)).shape[<span class="number">1</span>]</span><br><span class="line">    backbone.train()</span><br><span class="line"></span><br><span class="line">    <span class="comment">#添加分类头</span></span><br><span class="line">    head = nn.Sequential(</span><br><span class="line">        nn.AdaptiveAvgPool2d(<span class="number">1</span>),</span><br><span class="line">        nn.Flatten(),</span><br><span class="line">        nn.Dropout(<span class="number">0.2</span>),</span><br><span class="line">        nn.Linear(dim, <span class="number">10</span>)</span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">return</span> nn.Sequential(backbone, head).to(device)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用预训练权重 IMAGENET1K_V1 加速收敛<br>AdaptiveAvgPool2d 自适应池化保证输入尺寸兼容性<br>Dropout 防止过拟合<br>最后一层线性层输出 CIFAR-10 的 10 类预测结果</p>
+</blockquote>
+<hr>
+<h3 id="模型训练流程"><a href="#模型训练流程" class="headerlink" title="模型训练流程"></a>模型训练流程</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#训练与验证函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">run_one_epoch</span>(<span class="params">loader, model, criterion, optimizer=<span class="literal">None</span>, scheduler=<span class="literal">None</span>, train=<span class="literal">False</span></span>):</span><br><span class="line">    model.train() <span class="keyword">if</span> train <span class="keyword">else</span> model.<span class="built_in">eval</span>()</span><br><span class="line"></span><br><span class="line">    running_loss, correct, total = <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> x, y <span class="keyword">in</span> loader:</span><br><span class="line">        x, y = x.to(DEVICE), y.to(DEVICE)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> train:</span><br><span class="line">            optimizer.zero_grad()</span><br><span class="line"></span><br><span class="line">        out = model(x)</span><br><span class="line">        loss = criterion(out, y)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> train:</span><br><span class="line">            loss.backward()</span><br><span class="line">            optimizer.step()</span><br><span class="line">            <span class="keyword">if</span> scheduler:</span><br><span class="line">                scheduler.step()</span><br><span class="line"></span><br><span class="line">        running_loss += loss.item() * x.size(<span class="number">0</span>)</span><br><span class="line">        correct += (out.argmax(<span class="number">1</span>) == y).<span class="built_in">sum</span>().item()</span><br><span class="line">        total += x.size(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> running_loss / total, correct / total</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="训练与测试"><a href="#训练与测试" class="headerlink" title="训练与测试"></a>训练与测试</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#主训练流程</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    model = build_model(DEVICE, IMG_SIZE)</span><br><span class="line">    criterion = nn.CrossEntropyLoss()</span><br><span class="line">    optimizer = torch.optim.AdamW(model.parameters(), lr=LR, weight_decay=WD)</span><br><span class="line">    scheduler = torch.optim.lr_scheduler.OneCycleLR(</span><br><span class="line">        optimizer, max_lr=LR*<span class="number">3</span>, steps_per_epoch=<span class="built_in">len</span>(train_loader), epochs=EPOCHS</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, EPOCHS + <span class="number">1</span>):</span><br><span class="line">        train_loss, train_acc = run_one_epoch(train_loader, model, criterion, optimizer, scheduler, train=<span class="literal">True</span>)</span><br><span class="line">        test_loss, test_acc   = run_one_epoch(test_loader,  model, criterion, train=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;第 <span class="subst">&#123;epoch:02d&#125;</span> 轮：训练损失 <span class="subst">&#123;train_loss:<span class="number">.4</span>f&#125;</span>  准确率 <span class="subst">&#123;train_acc:<span class="number">.2</span>%&#125;</span> | &quot;</span></span><br><span class="line">              <span class="string">f&quot;测试损失 <span class="subst">&#123;test_loss:<span class="number">.4</span>f&#125;</span>  准确率 <span class="subst">&#123;test_acc:<span class="number">.2</span>%&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="结果与分析"><a href="#结果与分析" class="headerlink" title="结果与分析"></a>结果与分析</h3><table>
+<thead>
+<tr>
+<th align="center">Epoch</th>
+<th align="center">训练损失</th>
+<th align="center">训练准确率</th>
+<th align="center">测试损失</th>
+<th align="center">测试准确率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">01</td>
+<td align="center">0.3668</td>
+<td align="center">88.36%</td>
+<td align="center">0.2289</td>
+<td align="center">92.37%</td>
+</tr>
+<tr>
+<td align="center">02</td>
+<td align="center">0.2738</td>
+<td align="center">90.98%</td>
+<td align="center">0.2941</td>
+<td align="center">90.30%</td>
+</tr>
+<tr>
+<td align="center">03</td>
+<td align="center">0.3737</td>
+<td align="center">87.48%</td>
+<td align="center">0.3853</td>
+<td align="center">86.94%</td>
+</tr>
+<tr>
+<td align="center">04</td>
+<td align="center">0.4251</td>
+<td align="center">85.47%</td>
+<td align="center">0.4059</td>
+<td align="center">86.35%</td>
+</tr>
+<tr>
+<td align="center">05</td>
+<td align="center">0.4487</td>
+<td align="center">84.90%</td>
+<td align="center">0.3978</td>
+<td align="center">86.49%</td>
+</tr>
+<tr>
+<td align="center">06</td>
+<td align="center">0.4287</td>
+<td align="center">85.50%</td>
+<td align="center">0.4804</td>
+<td align="center">83.84%</td>
+</tr>
+<tr>
+<td align="center">07</td>
+<td align="center">0.3954</td>
+<td align="center">86.74%</td>
+<td align="center">0.3892</td>
+<td align="center">87.21%</td>
+</tr>
+<tr>
+<td align="center">08</td>
+<td align="center">0.3546</td>
+<td align="center">87.71%</td>
+<td align="center">0.4545</td>
+<td align="center">85.55%</td>
+</tr>
+<tr>
+<td align="center">09</td>
+<td align="center">0.3182</td>
+<td align="center">89.13%</td>
+<td align="center">0.3259</td>
+<td align="center">88.71%</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">0.2829</td>
+<td align="center">90.37%</td>
+<td align="center">0.3244</td>
+<td align="center">89.13%</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center">0.2412</td>
+<td align="center">91.88%</td>
+<td align="center">0.3089</td>
+<td align="center">89.85%</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="center">0.2009</td>
+<td align="center">93.12%</td>
+<td align="center">0.2896</td>
+<td align="center">90.63%</td>
+</tr>
+<tr>
+<td align="center">13</td>
+<td align="center">0.1711</td>
+<td align="center">94.00%</td>
+<td align="center">0.2789</td>
+<td align="center">91.13%</td>
+</tr>
+<tr>
+<td align="center">14</td>
+<td align="center">0.1283</td>
+<td align="center">95.56%</td>
+<td align="center">0.2721</td>
+<td align="center">91.60%</td>
+</tr>
+<tr>
+<td align="center">15</td>
+<td align="center">0.0910</td>
+<td align="center">96.82%</td>
+<td align="center">0.2439</td>
+<td align="center">92.84%</td>
+</tr>
+<tr>
+<td align="center">16</td>
+<td align="center">0.0635</td>
+<td align="center">97.79%</td>
+<td align="center">0.2435</td>
+<td align="center">93.19%</td>
+</tr>
+<tr>
+<td align="center">17</td>
+<td align="center">0.0409</td>
+<td align="center">98.56%</td>
+<td align="center">0.2497</td>
+<td align="center">93.52%</td>
+</tr>
+<tr>
+<td align="center">18</td>
+<td align="center">0.0281</td>
+<td align="center">99.01%</td>
+<td align="center">0.2530</td>
+<td align="center">93.55%</td>
+</tr>
+<tr>
+<td align="center">19</td>
+<td align="center">0.0189</td>
+<td align="center">99.37%</td>
+<td align="center">0.2582</td>
+<td align="center">93.81%</td>
+</tr>
+<tr>
+<td align="center">20</td>
+<td align="center">0.0143</td>
+<td align="center">99.52%</td>
+<td align="center">0.2567</td>
+<td align="center">93.74%</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>从结果可以看出，模型在训练过程中表现出明显的收敛趋势。训练损失由约 0.37 逐步下降至 0.0143，训练准确率提升至 99.52%，表明模型在训练集上已实现几乎完全拟合。<br>测试阶段的准确率从 92.37% 稳步提升至 93.74%，整体趋势较为平稳，但测试损失在中后期出现轻微上升，说明模型在训练后期存在一定程度的过拟合现象。<br>整体而言，该模型在 20 轮训练 内取得了较高的精度与良好的收敛性，但泛化性能提升有限。若进一步采用 数据增强、Dropout 或早停策略，可在保持精度的同时有效缓解过拟合，提升模型的鲁棒性与泛化能力。</p>
+</blockquote>
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在本次实验中，我们基于 <strong>ConvNeXt-Tiny</strong> 网络对 <strong>CIFAR-10</strong> 数据集进行了图像分类实验。经过 20 轮训练，模型在测试集上取得了 <strong>93.74% 的分类准确率</strong>，验证了 ConvNeXt 在小规模图像识别任务中的有效性与优越性能。<br>实验结果表明，ConvNeXt 在保持卷积神经网络高效特征提取能力的同时，通过引入 <strong>大卷积核（7×7）</strong>、<strong>LayerNorm</strong> 替代 <strong>BatchNorm</strong>、以及 <strong>更深层次的网络结构设计</strong>，显著提升了模型的特征表达能力与收敛稳定性。训练损失持续下降，训练准确率快速提升至 99% 以上，表明模型在训练集上几乎实现完全拟合。然而，在训练后期，测试损失略有回升，显示出一定的 <strong>过拟合倾向</strong>，这与模型容量较大、数据集规模有限等因素有关。<br>总体来看，<strong>ConvNeXt-Tiny 在分类精度、训练稳定性与收敛速度之间取得了较好的平衡</strong>，并在 CIFAR-10 数据集上展现出较强的泛化能力与学习效率。若在后续工作中结合 <strong>更强的数据增强策略</strong>、<strong>正则化方法</strong> 或 <strong>早停机制</strong>，有望进一步提升模型的泛化表现与整体性能。。</p>
+]]></content>
+      <categories>
+        <category>学习</category>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深度学习-ISIC2019数据集研究</title>
+    <url>/blog/posts/65c76649/</url>
+    <content><![CDATA[<p>对于ISIC2019的研究及分析</p>
+<span id="more"></span>
+
+<h2 id="数据集准备"><a href="#数据集准备" class="headerlink" title="数据集准备"></a>数据集准备</h2><p>本次实验使用<a href="https://challenge.isic-archive.com/data/#2019">ISIC2019</a>数据集</p>
+<blockquote>
+<p>ISIC 2019数据集的构建基于全球范围内的皮肤病变图像，由国际皮肤成像协作组织（ISIC）与多个医疗机构合作完成。该数据集通过严格的图像采集和标注流程，确保了图像的高质量和标注的准确性。图像来源于不同种族、年龄和性别的患者，涵盖了多种皮肤病变类型，包括但不限于黑色素瘤、基底细胞癌和鳞状细胞癌。数据集的构建过程中，采用了多层次的质量控制措施，确保了数据的一致性和可靠性。</p>
+</blockquote>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1763105913417-c4eb4696-798b-4710-8376-d0a6a8e84096.png" alt="img"></p>
+<blockquote>
+<p>ISIC_2019_Training_Input&#x2F;   ← 训练集图片（JPEG）<br>ISIC_2019_Training_GroundTruth.csv  ← 训练集标签（CSV）<br>ISIC_2019_Test_Input&#x2F;       ← 测试集图片<br>ISIC_2019_Test_GroundTruth.csv  ← 测试集标签</p>
+</blockquote>
+<hr>
+<h3 id="尝试数据集是否可用"><a href="#尝试数据集是否可用" class="headerlink" title="尝试数据集是否可用"></a>尝试数据集是否可用</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">base_dir = os.path.dirname(__file__)</span><br><span class="line">data_dir = os.path.join(base_dir, <span class="string">&quot;data&quot;</span>)</span><br><span class="line"></span><br><span class="line">train_csv_path = os.path.join(data_dir, <span class="string">&quot;ISIC_2019_Training_GroundTruth.csv&quot;</span>)</span><br><span class="line">test_csv_path  = os.path.join(data_dir, <span class="string">&quot;ISIC_2019_Test_GroundTruth.csv&quot;</span>)</span><br><span class="line"></span><br><span class="line">train_img_dir = os.path.join(data_dir, <span class="string">&quot;ISIC_2019_Training_Input&quot;</span>)</span><br><span class="line">test_img_dir  = os.path.join(data_dir, <span class="string">&quot;ISIC_2019_Test_Input&quot;</span>)</span><br><span class="line"></span><br><span class="line">train_csv = pd.read_csv(train_csv_path)</span><br><span class="line"><span class="built_in">print</span>(train_csv.head())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1763106316717-c0052629-2d35-480d-b341-155354bcd4ec.png" alt="img"></p>
+<hr>
+<p><strong>类别不平衡处理</strong> 和 <strong>数据增强</strong></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1763108084264-eb795ee2-3aed-474e-a300-c45144ac4a54.png" alt="img"></p>
+<p>根据这个数据我们要将MEL,NV,BCC,BKL四个数据下采样到2000张 然后将其他数据增强到2000张</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> torchvision.transforms <span class="keyword">as</span> T</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置参数</span></span><br><span class="line">IMG_DIR = <span class="string">&quot;../data/ISIC_2019_Training_Input/&quot;</span><span class="comment">#原始图片目录</span></span><br><span class="line">CSV_PATH = <span class="string">&quot;../data/ISIC_2019_Training_GroundTruth.csv&quot;</span></span><br><span class="line">OUT_DIR = <span class="string">&quot;data/balanced/&quot;</span><span class="comment">#输出平衡数据目录</span></span><br><span class="line">TARGET_COUNT = <span class="number">2000</span><span class="comment">#每类最终数量</span></span><br><span class="line">VAL_RATIO = <span class="number">0.2</span><span class="comment">#验证集比例</span></span><br><span class="line">IMG_SIZE = <span class="number">224</span></span><br><span class="line">SEED = <span class="number">42</span></span><br><span class="line"></span><br><span class="line">random.seed(SEED)</span><br><span class="line">np.random.seed(SEED)</span><br><span class="line"></span><br><span class="line">os.makedirs(OUT_DIR, exist_ok=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取CSV并标注类别</span></span><br><span class="line">df = pd.read_csv(CSV_PATH)</span><br><span class="line">class_cols = df.columns[<span class="number">1</span>:]</span><br><span class="line">df[<span class="string">&quot;label&quot;</span>] = df[class_cols].idxmax(axis=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">categories = df[<span class="string">&quot;label&quot;</span>].unique()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;检测到类别：&quot;</span>, categories)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 统计每类数量</span></span><br><span class="line">class_counts = df[<span class="string">&quot;label&quot;</span>].value_counts().to_dict()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;原始类别数量：&quot;</span>, class_counts)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义增强 pipeline</span></span><br><span class="line"><span class="comment"># 基础增强</span></span><br><span class="line">base_transform = T.Compose([</span><br><span class="line">    T.Resize((IMG_SIZE, IMG_SIZE)),</span><br><span class="line">    T.RandomHorizontalFlip(),</span><br><span class="line">    T.ToTensor(),</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 稀有类专属增强</span></span><br><span class="line">rare_transform = T.Compose([</span><br><span class="line">    T.Resize((IMG_SIZE, IMG_SIZE)),</span><br><span class="line">    T.RandomHorizontalFlip(),</span><br><span class="line">    T.ColorJitter(brightness=<span class="number">0.3</span>, contrast=<span class="number">0.3</span>, saturation=<span class="number">0.3</span>),</span><br><span class="line">    T.ToTensor(),</span><br><span class="line">    T.RandomErasing(p=<span class="number">0.5</span>, scale=(<span class="number">0.02</span>,<span class="number">0.15</span>), ratio=(<span class="number">0.3</span>,<span class="number">3.3</span>))</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证集只 Resize</span></span><br><span class="line">val_transform = T.Compose([</span><br><span class="line">    T.Resize((IMG_SIZE, IMG_SIZE)),</span><br><span class="line">    T.ToTensor()</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"><span class="comment"># Mixup 函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">adaptive_mixup</span>(<span class="params">x1, y1, x2, y2, class_counts, alpha=<span class="number">0.4</span></span>):</span><br><span class="line">    lam = np.random.beta(alpha, alpha)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">min</span>(class_counts[y1], class_counts[y2]) &lt; <span class="number">500</span>:</span><br><span class="line">        lam = <span class="built_in">min</span>(lam + <span class="number">0.2</span>, <span class="number">1.0</span>)</span><br><span class="line">    x_mix = lam * x1 + (<span class="number">1</span> - lam) * x2</span><br><span class="line">    y_mix = lam * y1 + (<span class="number">1</span> - lam) * y2</span><br><span class="line">    <span class="keyword">return</span> x_mix, y_mix</span><br><span class="line"></span><br><span class="line"><span class="comment"># 处理每个类别</span></span><br><span class="line">temp_dir = os.path.join(OUT_DIR, <span class="string">&quot;temp&quot;</span>)</span><br><span class="line">os.makedirs(temp_dir, exist_ok=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> cls <span class="keyword">in</span> categories:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;\n处理类别：<span class="subst">&#123;cls&#125;</span>&quot;</span>)</span><br><span class="line">    save_dir = os.path.join(temp_dir, cls)</span><br><span class="line">    os.makedirs(save_dir, exist_ok=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    items = df[df[<span class="string">&quot;label&quot;</span>] == cls]</span><br><span class="line">    img_paths = [os.path.join(IMG_DIR, <span class="string">f&quot;<span class="subst">&#123;img&#125;</span>.jpg&quot;</span>) <span class="keyword">for</span> img <span class="keyword">in</span> items[<span class="string">&quot;image&quot;</span>]]</span><br><span class="line">    n_imgs = <span class="built_in">len</span>(img_paths)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 如果样本多，随机下采样</span></span><br><span class="line">    <span class="keyword">if</span> n_imgs &gt;= TARGET_COUNT:</span><br><span class="line">        selected = random.sample(img_paths, TARGET_COUNT)</span><br><span class="line">        <span class="keyword">for</span> p <span class="keyword">in</span> tqdm(selected):</span><br><span class="line">            img = Image.<span class="built_in">open</span>(p).convert(<span class="string">&quot;RGB&quot;</span>)</span><br><span class="line">            img = base_transform(img)</span><br><span class="line">            out_path = os.path.join(save_dir, os.path.basename(p))</span><br><span class="line">            T.ToPILImage()(img).save(out_path)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 复制原图</span></span><br><span class="line">        <span class="keyword">for</span> p <span class="keyword">in</span> tqdm(img_paths):</span><br><span class="line">            img = Image.<span class="built_in">open</span>(p).convert(<span class="string">&quot;RGB&quot;</span>)</span><br><span class="line">            img = base_transform(img)</span><br><span class="line">            out_path = os.path.join(save_dir, os.path.basename(p))</span><br><span class="line">            T.ToPILImage()(img).save(out_path)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        need = TARGET_COUNT - n_imgs</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;cls&#125;</span> 原图 <span class="subst">&#123;n_imgs&#125;</span> 张，需要增强 <span class="subst">&#123;need&#125;</span> 张&quot;</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> tqdm(<span class="built_in">range</span>(need)):</span><br><span class="line">            src_path = img_paths[i % n_imgs]</span><br><span class="line">            img = Image.<span class="built_in">open</span>(src_path).convert(<span class="string">&quot;RGB&quot;</span>)</span><br><span class="line">            img = rare_transform(img)</span><br><span class="line">            out_path = os.path.join(save_dir, <span class="string">f&quot;aug_<span class="subst">&#123;i&#125;</span>.jpg&quot;</span>)</span><br><span class="line">            T.ToPILImage()(img).save(out_path)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 划分</span></span><br><span class="line">train_dir = os.path.join(OUT_DIR, <span class="string">&quot;train&quot;</span>)</span><br><span class="line">val_dir = os.path.join(OUT_DIR, <span class="string">&quot;val&quot;</span>)</span><br><span class="line">os.makedirs(train_dir, exist_ok=<span class="literal">True</span>)</span><br><span class="line">os.makedirs(val_dir, exist_ok=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> cls <span class="keyword">in</span> categories:</span><br><span class="line">    cls_temp_dir = os.path.join(temp_dir, cls)</span><br><span class="line">    files = os.listdir(cls_temp_dir)</span><br><span class="line">    random.shuffle(files)</span><br><span class="line">    n_val = <span class="built_in">int</span>(<span class="built_in">len</span>(files) * VAL_RATIO)</span><br><span class="line">    val_files = files[:n_val]</span><br><span class="line">    train_files = files[n_val:]</span><br><span class="line"></span><br><span class="line">    os.makedirs(os.path.join(train_dir, cls), exist_ok=<span class="literal">True</span>)</span><br><span class="line">    os.makedirs(os.path.join(val_dir, cls), exist_ok=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> f <span class="keyword">in</span> train_files:</span><br><span class="line">        shutil.copy(os.path.join(cls_temp_dir, f), os.path.join(train_dir, cls, f))</span><br><span class="line">    <span class="keyword">for</span> f <span class="keyword">in</span> val_files:</span><br><span class="line">        shutil.copy(os.path.join(cls_temp_dir, f), os.path.join(val_dir, cls, f))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清理临时文件</span></span><br><span class="line">shutil.rmtree(temp_dir)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n数据增强与平衡处理完成！&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;输出目录：&quot;</span>, OUT_DIR)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+  </entry>
+  <entry>
+    <title>深度学习-简单CNN卷积神经网络搭建</title>
+    <url>/blog/posts/493b6e5b/</url>
+    <content><![CDATA[<p>深度学习实验课作业，搭建自己的神经网络</p>
+<span id="more"></span>
+
+<hr>
+<h3 id="准备数据集"><a href="#准备数据集" class="headerlink" title="准备数据集"></a>准备数据集</h3><h4 id="MNIST数据集"><a href="#MNIST数据集" class="headerlink" title="MNIST数据集"></a>MNIST数据集</h4><p><a href="http://yann.lecun.com/exdb/mnist/">MNIST</a>（Modified National Institute of Standards and Technology）是一个手写数字数据集，通常用于训练各种图像处理系统。由美国国家标准与技术研究所（NIST）收集并修改而来，是计算机视觉和深度学习领域的经典入门数据集。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1762243688844-57b441fa-1b0a-4978-894f-5d75eeea90be.png" alt="img"></p>
+<ul>
+<li><p>样本规模:60k训练样本+10k测试样本</p>
+</li>
+<li><p>图片维度:28x28 单通道灰度图</p>
+</li>
+<li><p>分类标签:0-9共10个类别</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1762245150377-df349a49-194a-4661-b4df-0d7a0b201337.png" alt="img"></p>
+</li>
+</ul>
+<h4 id="载入数据"><a href="#载入数据" class="headerlink" title="载入数据"></a>载入数据</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torchvision.transforms <span class="keyword">as</span> transforms</span><br><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> DataLoader</span><br><span class="line"><span class="keyword">from</span> torchvision.datasets <span class="keyword">import</span> MNIST</span><br><span class="line"></span><br><span class="line"><span class="comment">#参数</span></span><br><span class="line">batch_size=<span class="number">128</span></span><br><span class="line">device=<span class="string">&#x27;cuda&#x27;</span> <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">&#x27;cpu&#x27;</span></span><br><span class="line">Epochs=<span class="number">20</span></span><br><span class="line">NUM_WORKER=<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#加载数据</span></span><br><span class="line">transform = transforms.Compose([</span><br><span class="line">    transforms.ToTensor(),<span class="comment"># 将图像转换为张量</span></span><br><span class="line">    transforms.Normalize((<span class="number">0.1307</span>,), (<span class="number">0.3081</span>,))   <span class="comment"># MNIST 均值、方差</span></span><br><span class="line">])</span><br><span class="line">train_data = MNIST(root=<span class="string">&#x27;./data&#x27;</span>, train=<span class="literal">True</span>, transform=transform, download=<span class="literal">True</span>)</span><br><span class="line">test_data = MNIST(root=<span class="string">&#x27;./data&#x27;</span>, train=<span class="literal">False</span>, transform=transform, download=<span class="literal">True</span>)</span><br><span class="line">train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=<span class="literal">True</span>, num_workers=NUM_WORKER)</span><br><span class="line">test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=<span class="literal">False</span>, num_workers=NUM_WORKER)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>root为存放MNIST的路径,train&#x3D;True代表下载的为训练集和训练集标签，False则代表测试集和标签<br>transforms.ToTensor()表示将shape为(H, W, C)的 numpy 数组或 img 转为shape为(C, H, W)的tensor，并将数值归一化为[0,1]<br>shuffle&#x3D;True，表示对分好的batch进行洗牌操作，drop_last&#x3D;True表示对最后不足batch大小的剩余样本舍去，False表示保留</p>
+</blockquote>
+<hr>
+<h3 id="设计CNN网络结构"><a href="#设计CNN网络结构" class="headerlink" title="设计CNN网络结构"></a>设计CNN网络结构</h3><h4 id="CNN网络结构层"><a href="#CNN网络结构层" class="headerlink" title="CNN网络结构层"></a>CNN网络结构层</h4><p>该模型以28×28×1的灰度图像作为输入，依次经过两组卷积与池化操作，再通过三层全连接层，完成从低层特征提取到最终的手写数字分类。</p>
+<ul>
+<li>在第一个卷积块中，输入通道由1扩展至32，经卷积和池化后，空间尺寸由28×28降至14×14，实现了边缘、角点等基础纹理特征的提取。</li>
+<li>在第二个卷积块中，通道数进一步增加至64，特征图尺寸缩小为7×7，模型开始学习更复杂的局部模式与形状结构。</li>
+<li>随后通过Flatten层将7×7×64的特征展平成一维向量（3136维），输入至分类头部分。</li>
+<li>在分类器部分，首先经过一层线性层（3136→128）与ReLU激活，提取深层抽象特征</li>
+<li>最后通过线性层（128→10）输出10维向量，对应0–9十个类别的预测概率。</li>
+</ul>
+<p>整体上，模型在通道维度上逐步扩张、空间维度逐层收缩，实现了从局部边缘特征到全局语义的层次化抽象过程，结构紧凑、计算高效，能够在MNIST手写数字识别任务中取得良好的分类性能。</p>
+<h4 id="代码部分"><a href="#代码部分" class="headerlink" title="代码部分"></a>代码部分</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#创建CNN网络</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CNN</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        <span class="variable language_">self</span>.conv1 = nn.Conv2d(<span class="number">1</span>,<span class="number">16</span>,kernel_size=<span class="number">3</span>,padding=<span class="number">1</span>)</span><br><span class="line">        <span class="variable language_">self</span>.max_pool1 = nn.MaxPool2d(<span class="number">2</span>)</span><br><span class="line">        <span class="variable language_">self</span>.conv2 = nn.Conv2d(<span class="number">16</span>,<span class="number">32</span>,kernel_size=<span class="number">3</span>,padding=<span class="number">1</span>)</span><br><span class="line">        <span class="variable language_">self</span>.max_pool2 = nn.MaxPool2d(<span class="number">2</span>)</span><br><span class="line">        <span class="variable language_">self</span>.fc1 = nn.Linear(<span class="number">32</span>*<span class="number">7</span>*<span class="number">7</span>,<span class="number">256</span>)</span><br><span class="line">        <span class="variable language_">self</span>.fc2 = nn.Linear(<span class="number">256</span>,<span class="number">10</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        x = <span class="variable language_">self</span>.max_pool1(F.relu(<span class="variable language_">self</span>.conv1(x)))</span><br><span class="line">        x = <span class="variable language_">self</span>.max_pool2(F.relu(<span class="variable language_">self</span>.conv2(x)))</span><br><span class="line">        x = x.view(-<span class="number">1</span>, <span class="number">32</span> * <span class="number">7</span> * <span class="number">7</span>)</span><br><span class="line">        x = F.relu(<span class="variable language_">self</span>.fc1(x))</span><br><span class="line">        y_hat = <span class="variable language_">self</span>.fc2(x)</span><br><span class="line">        <span class="keyword">return</span> y_hat</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>nn.Conv2()的参数分别为:in_channels&#x3D;输入图像通道数，out_channels&#x3D;卷积后的通道数，kernel_size&#x3D;卷积核大小，stride&#x3D;步长，padding&#x3D;填充<br>如:conv1为第一层卷积核通道数从1通道卷积值16通道、核大小为3X3、填充1</p>
+</blockquote>
+<hr>
+<h3 id="迭代训练"><a href="#迭代训练" class="headerlink" title="迭代训练"></a>迭代训练</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, Epochs + <span class="number">1</span>):</span><br><span class="line">        net.train()</span><br><span class="line">        running_loss, correct = <span class="number">0.0</span>, <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> x, y <span class="keyword">in</span> train_loader:</span><br><span class="line">            x, y = x.to(device), y.to(device)</span><br><span class="line">            optimizer.zero_grad()</span><br><span class="line">            out = net(x)</span><br><span class="line">            loss = criterion(out, y)</span><br><span class="line">            loss.backward()</span><br><span class="line">            optimizer.step()</span><br><span class="line">            running_loss += loss.item() * x.size(<span class="number">0</span>)</span><br><span class="line">            correct += (out.argmax(<span class="number">1</span>) == y).<span class="built_in">sum</span>().item()</span><br><span class="line"></span><br><span class="line">        train_loss = running_loss / <span class="built_in">len</span>(train_data)</span><br><span class="line">        train_acc = correct / <span class="built_in">len</span>(train_data)</span><br><span class="line"></span><br><span class="line">        net.<span class="built_in">eval</span>()</span><br><span class="line">        running_loss, correct = <span class="number">0.0</span>, <span class="number">0</span></span><br><span class="line">        <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">            <span class="keyword">for</span> x, y <span class="keyword">in</span> test_loader:</span><br><span class="line">                x, y = x.to(device), y.to(device)</span><br><span class="line">                out = net(x)</span><br><span class="line">                running_loss += criterion(out, y).item() * x.size(<span class="number">0</span>)</span><br><span class="line">                correct += (out.argmax(<span class="number">1</span>) == y).<span class="built_in">sum</span>().item()</span><br><span class="line"></span><br><span class="line">        test_loss = running_loss / <span class="built_in">len</span>(test_data)</span><br><span class="line">        test_acc = correct / <span class="built_in">len</span>(test_data)</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;第 <span class="subst">&#123;epoch&#125;</span> 轮：训练损失 <span class="subst">&#123;train_loss:<span class="number">.4</span>f&#125;</span>  训练准确率 <span class="subst">&#123;train_acc:<span class="number">.2</span>%&#125;</span> | &#x27;</span></span><br><span class="line">              <span class="string">f&#x27;测试损失 <span class="subst">&#123;test_loss:<span class="number">.4</span>f&#125;</span>  测试准确率 <span class="subst">&#123;test_acc:<span class="number">.2</span>%&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="结果输出"><a href="#结果输出" class="headerlink" title="结果输出"></a>结果输出</h3><p><img src="https://cdn.nlark.com/yuque/0/2025/png/54704506/1762869024908-ebb37d71-fdcf-45cc-881f-dac46a985599.png" alt="img"></p>
+<p>从训练日志可以看出，在第3个epoch 之后，训练损失迅速下降至约 0.11，测试损失降至 0.10左右，模型准确率已超过 96%，说明网络较快地学习到了有效的手写数字判别特征。<br>随着训练轮次的增加，损失值逐步趋于平稳，训练与测试曲线基本重合，表明模型在收敛过程中未出现明显的过拟合现象。<br>从第 5 个 epoch 起，训练集与测试集的准确率均保持在 97% 以上，并在第 10 个 epoch 达到峰值，训练准确率 98.76%、测试准确率 98.56%。训练与测试性能几乎一致，说明模型具备良好的泛化能力与收敛稳定性。</p>
+]]></content>
+      <categories>
+        <category>学习</category>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+</search>

@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+  <meta name="referrer" content="no-referrer"/>
+
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"beiannofox.github.io","root":"/blog/","images":"/blog/images","scheme":"Pisces","darkmode":false,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/blog/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/blog/js/config.js" defer></script>
+
+    <meta name="description" content="基于 ConvNeXt Tiny 模型，在 CIFAR-10 数据集 上完成图像分类任务。本实验旨在理解现代卷积网络的结构设计思想，并比较其在小规模数据集上的表现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习-ConvNeXt-Tiny在CIFAR-10上的分类实验">
+<meta property="og:url" content="https://beiannofox.github.io/blog/posts/d9c020ad/index.html">
+<meta property="og:site_name" content="鸽子窝">
+<meta property="og:description" content="基于 ConvNeXt Tiny 模型，在 CIFAR-10 数据集 上完成图像分类任务。本实验旨在理解现代卷积网络的结构设计思想，并比较其在小规模数据集上的表现。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-11-11T14:26:48.000Z">
+<meta property="article:modified_time" content="2025-11-12T07:22:12.000Z">
+<meta property="article:author" content="BeianNoFox">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://beiannofox.github.io/blog/posts/d9c020ad/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://beiannofox.github.io/blog/posts/d9c020ad/","path":"posts/d9c020ad/","title":"深度学习-ConvNeXt-Tiny在CIFAR-10上的分类实验"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>深度学习-ConvNeXt-Tiny在CIFAR-10上的分类实验 | 鸽子窝</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous" defer></script>
+<script src="/blog/js/utils.js" defer></script><script src="/blog/js/motion.js" defer></script><script src="/blog/js/sidebar.js" defer></script><script src="/blog/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/blog/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">鸽子窝</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">那就戴上金帽子，如果可以打动她</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">准备数据集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CIFAR-10-%E6%95%B0%E6%8D%AE%E9%9B%86%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">CIFAR-10 数据集简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E5%BA%93"><span class="nav-number">1.2.</span> <span class="nav-text">导入库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%8A%A0%E8%BD%BD%E4%B8%8E%E9%A2%84%E5%A4%84%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">数据加载与预处理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">模型设计与思路</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ConvNeXt-Tiny-%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.1.</span> <span class="nav-text">ConvNeXt Tiny 网络结构设计</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E6%B5%81%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">模型训练流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E4%B8%8E%E6%B5%8B%E8%AF%95"><span class="nav-number">4.</span> <span class="nav-text">训练与测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C%E4%B8%8E%E5%88%86%E6%9E%90"><span class="nav-number">5.</span> <span class="nav-text">结果与分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="BeianNoFox"
+      src="https://avatars.githubusercontent.com/u/204031213">
+  <p class="site-author-name" itemprop="name">BeianNoFox</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://beiannofox.github.io/blog/posts/d9c020ad/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/204031213">
+      <meta itemprop="name" content="BeianNoFox">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="鸽子窝">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="深度学习-ConvNeXt-Tiny在CIFAR-10上的分类实验 | 鸽子窝">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          深度学习-ConvNeXt-Tiny在CIFAR-10上的分类实验
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-11-11 22:26:48" itemprop="dateCreated datePublished" datetime="2025-11-11T22:26:48+08:00">2025-11-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-11-12 15:22:12" itemprop="dateModified" datetime="2025-11-12T15:22:12+08:00">2025-11-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E5%AD%A6%E4%B9%A0/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>基于 <strong>ConvNeXt Tiny</strong> 模型，在 <strong>CIFAR-10 数据集</strong> 上完成图像分类任务。<br>本实验旨在理解现代卷积网络的结构设计思想，并比较其在小规模数据集上的表现。</p>
+<span id="more"></span>
+
+<hr>
+<h3 id="准备数据集"><a href="#准备数据集" class="headerlink" title="准备数据集"></a>准备数据集</h3><h4 id="CIFAR-10-数据集简介"><a href="#CIFAR-10-数据集简介" class="headerlink" title="CIFAR-10 数据集简介"></a>CIFAR-10 数据集简介</h4><p><a target="_blank" rel="noopener" href="https://www.cs.toronto.edu/~kriz/cifar.html">CIFAR-10</a> 是由加拿大多伦多大学收集的经典小型彩色图像数据集，广泛用于图像分类任务的模型测试与基准评估。</p>
+<ul>
+<li>样本规模：50,000 张训练图像 + 10,000 张测试图像  </li>
+<li>图片维度：32 × 32 × 3（RGB 三通道）  </li>
+<li>分类标签：10 类</li>
+</ul>
+<p>图片占位符</p>
+<h4 id="导入库"><a href="#导入库" class="headerlink" title="导入库"></a>导入库</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torchvision.transforms <span class="keyword">as</span> transforms</span><br><span class="line"><span class="keyword">from</span> torchvision.datasets <span class="keyword">import</span> CIFAR10</span><br><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> DataLoader</span><br><span class="line"><span class="keyword">from</span> torchvision.models <span class="keyword">import</span> convnext_tiny</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">os.environ[<span class="string">&quot;KMP_DUPLICATE_LIB_OK&quot;</span>] = <span class="string">&quot;TRUE&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">set_seed</span>(<span class="params">seed</span>):</span><br><span class="line">    random.seed(seed)</span><br><span class="line">    np.random.seed(seed)</span><br><span class="line">    torch.manual_seed(seed)</span><br><span class="line">    torch.cuda.manual_seed_all(seed)</span><br><span class="line">    torch.backends.cudnn.deterministic = <span class="literal">True</span></span><br><span class="line">    torch.backends.cudnn.benchmark = <span class="literal">False</span></span><br><span class="line">    os.environ[<span class="string">&#x27;PYTHONHASHSEED&#x27;</span>] = <span class="built_in">str</span>(seed)</span><br><span class="line"></span><br><span class="line">set_seed(<span class="number">42</span>)  <span class="comment"># 固定随机种子</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="数据加载与预处理"><a href="#数据加载与预处理" class="headerlink" title="数据加载与预处理"></a>数据加载与预处理</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#参数设置</span></span><br><span class="line">DEVICE     = <span class="string">&#x27;cuda&#x27;</span> <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">&#x27;cpu&#x27;</span></span><br><span class="line">EPOCHS     = <span class="number">20</span></span><br><span class="line">BATCH_SIZE = <span class="number">128</span></span><br><span class="line">LR         = <span class="number">0.001</span></span><br><span class="line">WD         = <span class="number">0.0005</span></span><br><span class="line">IMG_SIZE   = <span class="number">64</span></span><br><span class="line">NUM_WORKER = <span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#图像均值和方差（CIFAR-10）</span></span><br><span class="line">MEAN, STD = (<span class="number">0.4914</span>, <span class="number">0.4822</span>, <span class="number">0.4465</span>), (<span class="number">0.2470</span>, <span class="number">0.2435</span>, <span class="number">0.2616</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#数据加载与预处理</span></span><br><span class="line">train_tf = transforms.Compose([</span><br><span class="line">    transforms.Resize(IMG_SIZE),</span><br><span class="line">    transforms.RandomCrop(IMG_SIZE, padding=<span class="number">8</span>),</span><br><span class="line">    transforms.RandomHorizontalFlip(),</span><br><span class="line">    transforms.ToTensor(),</span><br><span class="line">    transforms.Normalize(MEAN, STD)</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line">test_tf = transforms.Compose([</span><br><span class="line">    transforms.Resize(IMG_SIZE),</span><br><span class="line">    transforms.ToTensor(),</span><br><span class="line">    transforms.Normalize(MEAN, STD)</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line">train_data = CIFAR10(root=<span class="string">&#x27;./data&#x27;</span>, train=<span class="literal">True</span>, transform=train_tf, download=<span class="literal">True</span>)</span><br><span class="line">test_data  = CIFAR10(root=<span class="string">&#x27;./data&#x27;</span>, train=<span class="literal">False</span>, transform=test_tf)</span><br><span class="line"></span><br><span class="line">train_loader = DataLoader(train_data, batch_size=BATCH_SIZE, shuffle=<span class="literal">True</span>,  num_workers=NUM_WORKER, pin_memory=<span class="literal">True</span>)</span><br><span class="line">test_loader  = DataLoader(test_data,  batch_size=BATCH_SIZE, shuffle=<span class="literal">False</span>, num_workers=NUM_WORKER, pin_memory=<span class="literal">True</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Resize 将图像统一缩放到 64×64，以匹配 ConvNeXt 结构输入<br>RandomCrop 与 RandomHorizontalFlip 用于数据增强，提高模型泛化能力<br>Normalize 按通道归一化，匹配 ImageNet 预训练权重的统计特性</p>
+</blockquote>
+<hr>
+<h3 id="模型设计与思路"><a href="#模型设计与思路" class="headerlink" title="模型设计与思路"></a>模型设计与思路</h3><h4 id="ConvNeXt-Tiny-网络结构设计"><a href="#ConvNeXt-Tiny-网络结构设计" class="headerlink" title="ConvNeXt Tiny 网络结构设计"></a>ConvNeXt Tiny 网络结构设计</h4><p>ConvNeXt 是 Facebook Research 于 2022 年提出 的一种新型卷积神经网络结构。它基于经典的 ResNet 框架，但在多个方面进行了“现代化”改进，使传统 CNN 的性能接近 Vision Transformer（ViT）：</p>
+<ul>
+<li>使用 更大的卷积核（7×7），增强感受野；</li>
+<li>替换传统的 BatchNorm 为 LayerNorm，使网络训练更稳定；</li>
+<li>简化残差块结构，采用更深层、更宽的网络设计；</li>
+<li>引入 倒残差设计（IB），减少计算量；</li>
+<li>保留卷积网络的 归纳偏置与高效性，兼顾解释性与性能。</li>
+</ul>
+<p>在本实验中，我们选用 ConvNeXt-Tiny 作为特征提取主干网络，并在其顶部添加自定义的全连接分类头，用于实现 CIFAR-10 数据集的 10 类分类任务。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#定义模型</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">build_model</span>(<span class="params">device, img_size=<span class="number">64</span></span>):</span><br><span class="line">    backbone = convnext_tiny(weights=<span class="string">&#x27;IMAGENET1K_V1&#x27;</span>)</span><br><span class="line">    backbone.classifier = nn.Identity()</span><br><span class="line"></span><br><span class="line">    <span class="comment">#推理一次确定特征维度</span></span><br><span class="line">    backbone.<span class="built_in">eval</span>()</span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        dim = backbone(torch.randn(<span class="number">1</span>, <span class="number">3</span>, img_size, img_size)).shape[<span class="number">1</span>]</span><br><span class="line">    backbone.train()</span><br><span class="line"></span><br><span class="line">    <span class="comment">#添加分类头</span></span><br><span class="line">    head = nn.Sequential(</span><br><span class="line">        nn.AdaptiveAvgPool2d(<span class="number">1</span>),</span><br><span class="line">        nn.Flatten(),</span><br><span class="line">        nn.Dropout(<span class="number">0.2</span>),</span><br><span class="line">        nn.Linear(dim, <span class="number">10</span>)</span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">return</span> nn.Sequential(backbone, head).to(device)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用预训练权重 IMAGENET1K_V1 加速收敛<br>AdaptiveAvgPool2d 自适应池化保证输入尺寸兼容性<br>Dropout 防止过拟合<br>最后一层线性层输出 CIFAR-10 的 10 类预测结果</p>
+</blockquote>
+<hr>
+<h3 id="模型训练流程"><a href="#模型训练流程" class="headerlink" title="模型训练流程"></a>模型训练流程</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#训练与验证函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">run_one_epoch</span>(<span class="params">loader, model, criterion, optimizer=<span class="literal">None</span>, scheduler=<span class="literal">None</span>, train=<span class="literal">False</span></span>):</span><br><span class="line">    model.train() <span class="keyword">if</span> train <span class="keyword">else</span> model.<span class="built_in">eval</span>()</span><br><span class="line"></span><br><span class="line">    running_loss, correct, total = <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> x, y <span class="keyword">in</span> loader:</span><br><span class="line">        x, y = x.to(DEVICE), y.to(DEVICE)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> train:</span><br><span class="line">            optimizer.zero_grad()</span><br><span class="line"></span><br><span class="line">        out = model(x)</span><br><span class="line">        loss = criterion(out, y)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> train:</span><br><span class="line">            loss.backward()</span><br><span class="line">            optimizer.step()</span><br><span class="line">            <span class="keyword">if</span> scheduler:</span><br><span class="line">                scheduler.step()</span><br><span class="line"></span><br><span class="line">        running_loss += loss.item() * x.size(<span class="number">0</span>)</span><br><span class="line">        correct += (out.argmax(<span class="number">1</span>) == y).<span class="built_in">sum</span>().item()</span><br><span class="line">        total += x.size(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> running_loss / total, correct / total</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="训练与测试"><a href="#训练与测试" class="headerlink" title="训练与测试"></a>训练与测试</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#主训练流程</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    model = build_model(DEVICE, IMG_SIZE)</span><br><span class="line">    criterion = nn.CrossEntropyLoss()</span><br><span class="line">    optimizer = torch.optim.AdamW(model.parameters(), lr=LR, weight_decay=WD)</span><br><span class="line">    scheduler = torch.optim.lr_scheduler.OneCycleLR(</span><br><span class="line">        optimizer, max_lr=LR*<span class="number">3</span>, steps_per_epoch=<span class="built_in">len</span>(train_loader), epochs=EPOCHS</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, EPOCHS + <span class="number">1</span>):</span><br><span class="line">        train_loss, train_acc = run_one_epoch(train_loader, model, criterion, optimizer, scheduler, train=<span class="literal">True</span>)</span><br><span class="line">        test_loss, test_acc   = run_one_epoch(test_loader,  model, criterion, train=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;第 <span class="subst">&#123;epoch:02d&#125;</span> 轮：训练损失 <span class="subst">&#123;train_loss:<span class="number">.4</span>f&#125;</span>  准确率 <span class="subst">&#123;train_acc:<span class="number">.2</span>%&#125;</span> | &quot;</span></span><br><span class="line">              <span class="string">f&quot;测试损失 <span class="subst">&#123;test_loss:<span class="number">.4</span>f&#125;</span>  准确率 <span class="subst">&#123;test_acc:<span class="number">.2</span>%&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="结果与分析"><a href="#结果与分析" class="headerlink" title="结果与分析"></a>结果与分析</h3><table>
+<thead>
+<tr>
+<th align="center">Epoch</th>
+<th align="center">训练损失</th>
+<th align="center">训练准确率</th>
+<th align="center">测试损失</th>
+<th align="center">测试准确率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">01</td>
+<td align="center">0.3668</td>
+<td align="center">88.36%</td>
+<td align="center">0.2289</td>
+<td align="center">92.37%</td>
+</tr>
+<tr>
+<td align="center">02</td>
+<td align="center">0.2738</td>
+<td align="center">90.98%</td>
+<td align="center">0.2941</td>
+<td align="center">90.30%</td>
+</tr>
+<tr>
+<td align="center">03</td>
+<td align="center">0.3737</td>
+<td align="center">87.48%</td>
+<td align="center">0.3853</td>
+<td align="center">86.94%</td>
+</tr>
+<tr>
+<td align="center">04</td>
+<td align="center">0.4251</td>
+<td align="center">85.47%</td>
+<td align="center">0.4059</td>
+<td align="center">86.35%</td>
+</tr>
+<tr>
+<td align="center">05</td>
+<td align="center">0.4487</td>
+<td align="center">84.90%</td>
+<td align="center">0.3978</td>
+<td align="center">86.49%</td>
+</tr>
+<tr>
+<td align="center">06</td>
+<td align="center">0.4287</td>
+<td align="center">85.50%</td>
+<td align="center">0.4804</td>
+<td align="center">83.84%</td>
+</tr>
+<tr>
+<td align="center">07</td>
+<td align="center">0.3954</td>
+<td align="center">86.74%</td>
+<td align="center">0.3892</td>
+<td align="center">87.21%</td>
+</tr>
+<tr>
+<td align="center">08</td>
+<td align="center">0.3546</td>
+<td align="center">87.71%</td>
+<td align="center">0.4545</td>
+<td align="center">85.55%</td>
+</tr>
+<tr>
+<td align="center">09</td>
+<td align="center">0.3182</td>
+<td align="center">89.13%</td>
+<td align="center">0.3259</td>
+<td align="center">88.71%</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">0.2829</td>
+<td align="center">90.37%</td>
+<td align="center">0.3244</td>
+<td align="center">89.13%</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center">0.2412</td>
+<td align="center">91.88%</td>
+<td align="center">0.3089</td>
+<td align="center">89.85%</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="center">0.2009</td>
+<td align="center">93.12%</td>
+<td align="center">0.2896</td>
+<td align="center">90.63%</td>
+</tr>
+<tr>
+<td align="center">13</td>
+<td align="center">0.1711</td>
+<td align="center">94.00%</td>
+<td align="center">0.2789</td>
+<td align="center">91.13%</td>
+</tr>
+<tr>
+<td align="center">14</td>
+<td align="center">0.1283</td>
+<td align="center">95.56%</td>
+<td align="center">0.2721</td>
+<td align="center">91.60%</td>
+</tr>
+<tr>
+<td align="center">15</td>
+<td align="center">0.0910</td>
+<td align="center">96.82%</td>
+<td align="center">0.2439</td>
+<td align="center">92.84%</td>
+</tr>
+<tr>
+<td align="center">16</td>
+<td align="center">0.0635</td>
+<td align="center">97.79%</td>
+<td align="center">0.2435</td>
+<td align="center">93.19%</td>
+</tr>
+<tr>
+<td align="center">17</td>
+<td align="center">0.0409</td>
+<td align="center">98.56%</td>
+<td align="center">0.2497</td>
+<td align="center">93.52%</td>
+</tr>
+<tr>
+<td align="center">18</td>
+<td align="center">0.0281</td>
+<td align="center">99.01%</td>
+<td align="center">0.2530</td>
+<td align="center">93.55%</td>
+</tr>
+<tr>
+<td align="center">19</td>
+<td align="center">0.0189</td>
+<td align="center">99.37%</td>
+<td align="center">0.2582</td>
+<td align="center">93.81%</td>
+</tr>
+<tr>
+<td align="center">20</td>
+<td align="center">0.0143</td>
+<td align="center">99.52%</td>
+<td align="center">0.2567</td>
+<td align="center">93.74%</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>从结果可以看出，模型在训练过程中表现出明显的收敛趋势。训练损失由约 0.37 逐步下降至 0.0143，训练准确率提升至 99.52%，表明模型在训练集上已实现几乎完全拟合。<br>测试阶段的准确率从 92.37% 稳步提升至 93.74%，整体趋势较为平稳，但测试损失在中后期出现轻微上升，说明模型在训练后期存在一定程度的过拟合现象。<br>整体而言，该模型在 20 轮训练 内取得了较高的精度与良好的收敛性，但泛化性能提升有限。若进一步采用 数据增强、Dropout 或早停策略，可在保持精度的同时有效缓解过拟合，提升模型的鲁棒性与泛化能力。</p>
+</blockquote>
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在本次实验中，我们基于 <strong>ConvNeXt-Tiny</strong> 网络对 <strong>CIFAR-10</strong> 数据集进行了图像分类实验。经过 20 轮训练，模型在测试集上取得了 <strong>93.74% 的分类准确率</strong>，验证了 ConvNeXt 在小规模图像识别任务中的有效性与优越性能。<br>实验结果表明，ConvNeXt 在保持卷积神经网络高效特征提取能力的同时，通过引入 <strong>大卷积核（7×7）</strong>、<strong>LayerNorm</strong> 替代 <strong>BatchNorm</strong>、以及 <strong>更深层次的网络结构设计</strong>，显著提升了模型的特征表达能力与收敛稳定性。训练损失持续下降，训练准确率快速提升至 99% 以上，表明模型在训练集上几乎实现完全拟合。然而，在训练后期，测试损失略有回升，显示出一定的 <strong>过拟合倾向</strong>，这与模型容量较大、数据集规模有限等因素有关。<br>总体来看，<strong>ConvNeXt-Tiny 在分类精度、训练稳定性与收敛速度之间取得了较好的平衡</strong>，并在 CIFAR-10 数据集上展现出较强的泛化能力与学习效率。若在后续工作中结合 <strong>更强的数据增强策略</strong>、<strong>正则化方法</strong> 或 <strong>早停机制</strong>，有望进一步提升模型的泛化表现与整体性能。。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
+              <a href="/blog/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/posts/31383a7d/" rel="prev" title="OMR研究1">
+                  <i class="fa fa-angle-left"></i> OMR研究1
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/blog/posts/65c76649/" rel="next" title="深度学习-ISIC2019数据集研究">
+                  深度学习-ISIC2019数据集研究 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">BeianNoFox</span>
+    <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+    <div class="wordcount">
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="fa fa-chart-line"></i>
+        </span>
+          <span>站点总字数：</span>
+        <span title="站点总字数">8k</span>
+      </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="fa fa-coffee"></i>
+        </span>
+          <span>站点阅读时长 &asymp;</span>
+        <span title="站点阅读时长">14 分钟</span>
+      </span>
+    </div>
+
+  </div>
+
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("03/03/2025 10:00:00"); //此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "+hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/BeianNoFox" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '32px',
+  right: '32px',
+  left: 'unset',
+  time: '0.3s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>
